@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pushpa Flowers – Fresh Home Delivery</title>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   CSS VARIABLES & RESET
+══════════════════════════════════════ */
+:root {
+  --bg:        #fffbf5;
+  --bg2:       #fff8ee;
+  --saffron:   #e07b00;
+  --saffron2:  #f5a623;
+  --gold:      #ffd166;
+  --rose:      #c0415a;
+  --sage:      #2d6a4f;
+  --sage2:     #52b788;
+  --ink:       #1c1008;
+  --muted:     #7a6040;
+  --border:    rgba(224,123,0,0.18);
+  --white:     #ffffff;
+  --card-bg:   #fffdf8;
+  --del-blue:  #1a6bb5;
+
+  --font-body: 'Nunito', 'Noto Sans Devanagari', sans-serif;
+  --font-head: 'Yeseva One', 'Noto Sans Devanagari', serif;
+
+  --r-sm: 10px; --r-md: 18px; --r-lg: 28px; --r-xl: 40px;
+  --shadow: 0 20px 60px rgba(28,16,8,0.11);
+  --shadow-sm: 0 4px 20px rgba(28,16,8,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+button { cursor: pointer; font-family: inherit; }
+a { text-decoration: none; }
+/* FIX: corrected selector from .lang-mr body to body.lang-mr */
+body.lang-hi *, body.lang-mr * { font-family: 'Nunito', 'Noto Sans Devanagari', sans-serif; }
+
+/* ══════════════════════════════════════
+   PETAL CANVAS
+══════════════════════════════════════ */
+#petalCanvas {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+}
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+.sr { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.sr.vis { opacity: 1; transform: translateY(0); }
+.sr-l { opacity: 0; transform: translateX(-28px); transition: opacity .65s ease, transform .65s ease; }
+.sr-l.vis { opacity: 1; transform: translateX(0); }
+.sr-r { opacity: 0; transform: translateX(28px); transition: opacity .65s ease, transform .65s ease; }
+.sr-r.vis { opacity: 1; transform: translateX(0); }
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 52px;
+  background: rgba(255,251,245,0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s;
+}
+nav.scrolled { box-shadow: 0 2px 28px rgba(28,16,8,0.09); }
+.logo {
+  font-family: var(--font-head);
+  font-size: 1.7rem; color: var(--sage);
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer;
+}
+.logo span { color: var(--saffron); }
+.logo .logo-spin { display: inline-block; transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
+.logo:hover .logo-spin { transform: rotate(72deg) scale(1.2); }
+.nav-mid { display: flex; gap: 24px; list-style: none; }
+.nav-mid a {
+  font-size: .875rem; font-weight: 600; color: var(--muted);
+  transition: color .2s; position: relative; padding-bottom: 2px;
+}
+.nav-mid a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+  background: var(--saffron); transition: width .25s ease;
+}
+.nav-mid a:hover { color: var(--saffron); }
+.nav-mid a:hover::after { width: 100%; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+
+/* Language Toggle — now supports EN / हिं / मर */
+.lang-toggle {
+  display: flex; align-items: center; gap: 0;
+  border: 1.5px solid var(--border); border-radius: 50px;
+  overflow: hidden; background: var(--bg2);
+}
+.lang-btn {
+  padding: 6px 12px; border: none; background: none;
+  font-size: .78rem; font-weight: 700; color: var(--muted);
+  transition: background .2s, color .2s; cursor: pointer;
+  font-family: 'Nunito', 'Noto Sans Devanagari', sans-serif;
+}
+.lang-btn.active { background: var(--saffron); color: var(--white); }
+
+.nav-sub-btn {
+  background: var(--sage); color: var(--white);
+  border: none; padding: 8px 20px; border-radius: 50px;
+  font-size: .83rem; font-weight: 700;
+  transition: background .2s, transform .15s, box-shadow .2s;
+}
+.nav-sub-btn:hover { background: var(--saffron); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(224,123,0,.28); }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 40px;
+  padding: 120px 56px 80px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(145deg, #fffbf5 0%, #fff3dc 55%, #ffe8c0 100%);
+}
+.hero-deco {
+  position: absolute; border-radius: 50%; pointer-events: none;
+}
+.hd1 { width: 640px; height: 640px; right: -60px; top: -80px; background: radial-gradient(circle, rgba(245,166,35,.13) 0%, transparent 68%); }
+.hd2 { width: 320px; height: 320px; left: 36%; bottom: -80px; background: radial-gradient(circle, rgba(192,65,90,.07) 0%, transparent 68%); }
+.hd3 { width: 200px; height: 200px; left: 8%; top: 20%; background: radial-gradient(circle, rgba(45,106,79,.06) 0%, transparent 68%); }
+
+/* NEW: animated mesh gradient overlay */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255,209,102,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(82,183,136,.06) 0%, transparent 60%);
+  animation: meshPulse 7s ease-in-out infinite alternate;
+}
+@keyframes meshPulse {
+  from { opacity: .7; }
+  to   { opacity: 1; }
+}
+
+.hero-left { position: relative; z-index: 2; }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(224,123,0,.10); border: 1px solid rgba(224,123,0,.25);
+  padding: 5px 15px; border-radius: 50px;
+  font-size: .72rem; font-weight: 700; color: var(--saffron);
+  letter-spacing: 1.1px; text-transform: uppercase; margin-bottom: 20px;
+  animation: fadeD .6s ease both;
+}
+.hero-pill .pill-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--saffron); animation: blink 1.6s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.2;} }
+@keyframes fadeD { from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);} }
+.hero h1 {
+  font-family: var(--font-head);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  line-height: 1.09; color: var(--ink);
+  margin-bottom: 18px;
+  animation: fadeU .7s .1s ease both;
+}
+@keyframes fadeU { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:translateY(0);} }
+.hero h1 em { color: var(--saffron); font-style: italic; }
+.hero h1 .g { color: var(--sage); }
+.hero-sub {
+  font-size: 1.02rem; color: var(--muted); line-height: 1.78;
+  max-width: 460px; margin-bottom: 32px;
+  animation: fadeU .7s .18s ease both;
+}
+.hero-btns {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  animation: fadeU .7s .26s ease both;
+}
+.btn-prim {
+  background: var(--sage); color: var(--white);
+  padding: 13px 30px; border-radius: 50px; border: none;
+  font-size: .93rem; font-weight: 700;
+  transition: all .25s; display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-prim:hover { background: var(--saffron); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(224,123,0,.3); }
+.btn-sec {
+  background: transparent; color: var(--sage);
+  padding: 13px 30px; border-radius: 50px;
+  border: 2px solid var(--sage); font-size: .93rem; font-weight: 700;
+  transition: all .25s; display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-sec:hover { background: var(--sage); color: var(--white); }
+
+/* Hero Visual */
+.hero-right { display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; animation: fadeU .8s .32s ease both; }
+.h-orb {
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #fff9ee, #fde8a8, #f5c060);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8.5rem; position: relative;
+  box-shadow: 0 28px 80px rgba(224,123,0,.22), inset 0 0 80px rgba(255,255,255,.45);
+  animation: float 5.5s ease-in-out infinite;
+  cursor: default;
+  transition: box-shadow .3s;
+}
+.h-orb:hover {
+  box-shadow: 0 36px 100px rgba(224,123,0,.34), inset 0 0 80px rgba(255,255,255,.55);
+}
+/* Rotating ring around orb */
+.h-orb::before {
+  content: '';
+  position: absolute; inset: -14px;
+  border-radius: 50%;
+  border: 2px dashed rgba(224,123,0,.22);
+  animation: ringRotate 16s linear infinite;
+}
+@keyframes ringRotate { to { transform: rotate(360deg); } }
+.h-orb-emoji { display: inline-block; animation: wobble 4s ease-in-out infinite; }
+@keyframes wobble { 0%,100%{transform:rotate(-5deg);} 50%{transform:rotate(5deg);} }
+@keyframes float { 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-16px) rotate(2deg);} }
+.h-badge {
+  position: absolute;
+  background: var(--white); border-radius: var(--r-md);
+  padding: 11px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.11);
+  font-size: .79rem; font-weight: 600; color: var(--ink);
+  display: flex; flex-direction: column; gap: 2px;
+  transition: transform .3s, box-shadow .3s;
+}
+.h-badge:hover { transform: scale(1.06); box-shadow: 0 10px 32px rgba(0,0,0,.16); }
+.h-badge strong { font-size: 1rem; color: var(--saffron); font-family: var(--font-head); }
+.hb1 { bottom: 40px; right: -18px; }
+.hb2 { top: 44px; left: -22px; background: var(--sage); color: var(--white); }
+.hb2 strong { color: var(--gold); }
+/* NEW: third floating badge */
+.hb3 { top: 50%; left: -30px; transform: translateY(-50%); background: var(--rose); color: var(--white); }
+.hb3 strong { color: var(--gold); }
+
+/* Delivery Info Strip */
+.del-strip {
+  background: var(--del-blue); color: var(--white);
+  display: flex; align-items: center; justify-content: center; gap: 32px;
+  padding: 11px 40px; font-size: .82rem; font-weight: 600;
+  flex-wrap: wrap; position: relative; z-index: 2;
+  overflow: hidden;
+}
+/* Animated shimmer */
+.del-strip::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.06) 50%, transparent 100%);
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { from{transform:translateX(-100%);} to{transform:translateX(100%);} }
+.del-item { display: flex; align-items: center; gap: 7px; position: relative; z-index: 1; }
+.del-item span { opacity: .7; font-weight: 400; }
+
+/* ══════════════════════════════════════
+   STATS
+══════════════════════════════════════ */
+.stats {
+  background: var(--sage);
+  display: flex; justify-content: center; flex-wrap: wrap;
+}
+.stat-box {
+  flex: 1; min-width: 150px; padding: 32px 20px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,.12);
+  transition: background .2s, transform .2s;
+  cursor: default;
+}
+.stat-box:last-child { border-right: none; }
+.stat-box:hover { background: rgba(255,255,255,.1); transform: translateY(-3px); }
+.stat-n {
+  font-family: var(--font-head); font-size: 2.2rem;
+  color: var(--gold); display: block; margin-bottom: 3px;
+}
+.stat-l { font-size: .78rem; color: rgba(255,255,255,.68); font-weight: 400; letter-spacing: .3px; }
+
+/* ══════════════════════════════════════
+   SECTION HELPERS
+══════════════════════════════════════ */
+.section { padding: 96px 56px; position: relative; z-index: 1; }
+.s-tag {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: .71rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.8px; color: var(--saffron); margin-bottom: 12px;
+}
+.s-tag::before { content: ''; width: 22px; height: 2px; background: var(--saffron); flex-shrink: 0; }
+.s-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.85rem, 3vw, 2.7rem);
+  color: var(--ink); line-height: 1.18; margin-bottom: 10px;
+}
+.s-sub { color: var(--muted); font-size: .97rem; line-height: 1.78; max-width: 480px; }
+.tc { text-align: center; }
+.tc .s-tag { justify-content: center; }
+.tc .s-tag::before { display: none; }
+.tc .s-sub { margin: 0 auto; }
+
+/* ══════════════════════════════════════
+   PRICING TOGGLE
+══════════════════════════════════════ */
+.price-toggle-wrap {
+  display: flex; justify-content: center; margin: 28px 0 48px;
+}
+.price-toggle {
+  display: flex; background: var(--bg2);
+  border: 1.5px solid var(--border); border-radius: 50px;
+  overflow: hidden; padding: 4px;
+}
+.pt-btn {
+  padding: 9px 26px; border: none; background: none;
+  font-size: .88rem; font-weight: 700; color: var(--muted);
+  border-radius: 50px; transition: all .25s; cursor: pointer;
+  display: flex; align-items: center; gap: 7px;
+}
+.pt-btn.active { background: var(--saffron); color: var(--white); box-shadow: 0 4px 14px rgba(224,123,0,.28); }
+.pt-badge {
+  background: var(--rose); color: var(--white);
+  font-size: .63rem; font-weight: 800; padding: 2px 7px;
+  border-radius: 50px; letter-spacing: .5px;
+}
+
+/* ══════════════════════════════════════
+   SERVICE CARDS
+══════════════════════════════════════ */
+#services { background: var(--white); }
+.cards-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(246px, 1fr));
+  gap: 22px; max-width: 1120px; margin: 0 auto;
+}
+.scard {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg); padding: 32px 24px 24px;
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+}
+.scard::after {
+  content: ''; position: absolute; bottom: 0; right: 0;
+  width: 90px; height: 90px; border-radius: 50% 0 var(--r-lg) 0;
+  background: rgba(224,123,0,.05); pointer-events: none;
+  transition: background .3s, width .3s, height .3s;
+}
+.scard:hover::after { background: rgba(224,123,0,.12); width: 130px; height: 130px; }
+.scard:hover { transform: translateY(-7px); box-shadow: var(--shadow); border-color: rgba(224,123,0,.38); }
+.scard.featured {
+  background: linear-gradient(150deg, #1e4d38, #2d6a4f);
+  border-color: var(--sage2);
+}
+.scard.featured .sc-name,
+.scard.featured .sc-desc { color: var(--white); }
+.scard.featured .sc-desc { opacity: .72; }
+.sc-ribbon {
+  position: absolute; top: 16px; right: 0;
+  padding: 3px 12px 3px 10px; border-radius: 4px 0 0 4px;
+  font-size: .63rem; font-weight: 800; letter-spacing: .7px; text-transform: uppercase;
+}
+.sc-icon {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: rgba(224,123,0,.10); display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; margin-bottom: 18px; transition: transform .3s, background .3s;
+}
+.scard.featured .sc-icon { background: rgba(255,255,255,.12); }
+.scard:hover .sc-icon { transform: scale(1.18) rotate(-8deg); background: rgba(224,123,0,.18); }
+.scard.featured:hover .sc-icon { background: rgba(255,255,255,.2); }
+.sc-name {
+  font-family: var(--font-head); font-size: 1.22rem; color: var(--ink); margin-bottom: 6px;
+}
+.sc-desc { font-size: .84rem; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+.sc-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.sc-prices { display: flex; flex-direction: column; gap: 2px; }
+.sc-price-now {
+  font-family: var(--font-head); font-size: 1.75rem; color: var(--saffron); line-height: 1;
+  transition: color .25s;
+}
+.scard.featured .sc-price-now { color: var(--gold); }
+.sc-price-sub { font-size: .75rem; color: var(--sage2); font-weight: 700; }
+.scard.featured .sc-price-sub { color: rgba(255,255,255,.6); }
+.sc-price-unit { font-size: .73rem; color: var(--muted); font-weight: 400; }
+.scard.featured .sc-price-unit { color: rgba(255,255,255,.45); }
+.sc-btn {
+  background: var(--saffron); color: var(--white); border: none;
+  padding: 9px 18px; border-radius: 50px;
+  font-size: .82rem; font-weight: 700; white-space: nowrap;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  display: flex; align-items: center; gap: 5px;
+}
+.sc-btn:hover { background: var(--rose); transform: scale(1.06); box-shadow: 0 6px 18px rgba(192,65,90,.28); }
+.scard.featured .sc-btn { background: var(--gold); color: var(--ink); }
+.scard.featured .sc-btn:hover { background: #ffcf33; box-shadow: 0 6px 18px rgba(255,209,102,.4); }
+
+/* Delivery charge note */
+.del-note {
+  text-align: center; margin-top: 28px;
+  background: rgba(26,107,181,.07); border: 1.5px dashed rgba(26,107,181,.25);
+  border-radius: var(--r-md); padding: 14px 24px;
+  font-size: .87rem; color: var(--del-blue); font-weight: 600;
+  max-width: 680px; margin-left: auto; margin-right: auto;
+  display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap;
+}
+.del-note b { font-weight: 800; }
+
+/* ══════════════════════════════════════
+   SUBSCRIPTION SECTION
+══════════════════════════════════════ */
+#subscription {
+  background: linear-gradient(135deg, #133428 0%, #1e4d38 50%, #133428 100%);
+}
+.sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1060px; margin: 0 auto; }
+#subscription .s-tag { color: var(--gold); }
+#subscription .s-tag::before { background: var(--gold); }
+#subscription .s-title { color: var(--white); }
+#subscription .s-sub { color: rgba(255,255,255,.62); }
+.sub-feats { margin-top: 26px; display: flex; flex-direction: column; gap: 14px; }
+.sub-feat { display: flex; align-items: flex-start; gap: 14px; font-size: .88rem; color: rgba(255,255,255,.78); }
+.sfi {
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+  background: rgba(255,209,102,.18); display: flex; align-items: center; justify-content: center; font-size: .92rem;
+  transition: background .2s, transform .2s;
+}
+.sub-feat:hover .sfi { background: rgba(255,209,102,.3); transform: scale(1.12); }
+.sub-feat strong { color: var(--white); display: block; margin-bottom: 2px; }
+
+.sub-card {
+  background: rgba(255,255,255,.06);
+  border: 1.5px solid rgba(255,255,255,.13); border-radius: var(--r-xl);
+  padding: 36px 28px; text-align: center; backdrop-filter: blur(10px);
+  position: relative; overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
+}
+.sub-card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,.3); }
+.sub-card::before {
+  content: ''; position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,209,102,.16) 0%, transparent 70%);
+}
+.sub-badge {
+  background: var(--gold); color: var(--ink);
+  font-size: .7rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 50px; display: inline-block; margin-bottom: 14px;
+}
+.sub-prices-list {
+  list-style: none; margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-md); overflow: hidden;
+}
+.sub-prices-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 18px; color: rgba(255,255,255,.85); font-size: .86rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  transition: background .2s;
+}
+.sub-prices-list li:last-child { border-bottom: none; }
+.sub-prices-list li:hover { background: rgba(255,255,255,.06); }
+.sub-prices-list li strong { font-family: var(--font-head); font-size: 1.05rem; color: var(--gold); }
+.sub-perks { list-style: none; margin-bottom: 22px; }
+.sub-perks li {
+  padding: 7px 0; color: rgba(255,255,255,.75); font-size: .83rem;
+  border-bottom: 1px solid rgba(255,255,255,.06); display: flex; align-items: center; gap: 8px;
+}
+.sub-perks li::before { content: '✓'; color: var(--gold); font-weight: 800; flex-shrink: 0; }
+.sub-perks li:last-child { border-bottom: none; }
+.sub-cta {
+  width: 100%; padding: 14px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--saffron), #c86c00);
+  color: var(--white); font-size: .96rem; font-weight: 800;
+  transition: all .25s; box-shadow: 0 6px 20px rgba(224,123,0,.4);
+  position: relative; z-index: 1;
+}
+.sub-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(224,123,0,.5); opacity: .95; }
+
+/* ══════════════════════════════════════
+   HOW IT WORKS
+══════════════════════════════════════ */
+.how-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 28px; max-width: 1020px; margin: 48px auto 0;
+}
+.how-step {
+  text-align: center; padding: 32px 18px; position: relative;
+  background: var(--card-bg); border: 1.5px solid var(--border);
+  border-radius: var(--r-lg); transition: transform .3s, box-shadow .3s, border-color .3s;
+}
+.how-step:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: rgba(224,123,0,.3); }
+.how-step::after {
+  content: '→'; position: absolute;
+  right: -22px; top: 50%; transform: translateY(-50%);
+  font-size: 1.3rem; color: var(--border);
+  display: none;
+}
+@media(min-width:700px){ .how-step:not(:last-child)::after { display: block; } }
+.how-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(224,123,0,.12); color: var(--saffron);
+  font-size: .85rem; font-weight: 800; display: inline-flex;
+  align-items: center; justify-content: center; margin-bottom: 12px;
+}
+.how-icon { font-size: 2.4rem; margin-bottom: 12px; display: block; transition: transform .3s; }
+.how-step:hover .how-icon { transform: scale(1.2) rotate(-5deg); }
+.how-title { font-family: var(--font-head); font-size: 1.1rem; color: var(--ink); margin-bottom: 8px; }
+.how-desc { font-size: .83rem; color: var(--muted); line-height: 1.65; }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background: var(--ink); color: rgba(255,255,255,.7);
+  text-align: center; padding: 28px 20px;
+  font-size: .86rem; line-height: 1.7;
+}
+footer strong { color: var(--gold); }
+footer a { color: var(--sage2); transition: color .2s; }
+footer a:hover { color: var(--gold); }
+
+/* ══════════════════════════════════════
+   MODALS / OVERLAYS
+══════════════════════════════════════ */
+.overlay {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(28,16,8,.55); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; opacity: 0; pointer-events: none;
+  transition: opacity .28s ease;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--white); border-radius: var(--r-xl);
+  width: 100%; max-width: 480px; max-height: 90vh;
+  overflow-y: auto; box-shadow: 0 32px 100px rgba(0,0,0,.22);
+  transform: scale(.93) translateY(16px);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-top {
+  padding: 24px 24px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.modal-icon-title { display: flex; align-items: center; gap: 14px; }
+.modal-big-icon { font-size: 2.3rem; }
+.modal-title-wrap {}
+.mt { font-family: var(--font-head); font-size: 1.3rem; color: var(--ink); }
+.ms { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+.m-close {
+  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border);
+  background: var(--bg2); font-size: .9rem; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.m-close:hover { background: var(--rose); border-color: var(--rose); color: var(--white); }
+.modal-body { padding: 20px 24px 24px; }
+.m-price-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, var(--bg2), #ffecc8);
+  border-radius: var(--r-md); padding: 12px 16px; margin-bottom: 10px;
+}
+.mpb-left { display: flex; flex-direction: column; gap: 3px; }
+.mpb-left span { font-size: .78rem; font-weight: 700; color: var(--muted); }
+.mpb-sub { font-size: .72rem !important; color: var(--sage2) !important; }
+.mpb-price { font-family: var(--font-head); font-size: 2rem; color: var(--saffron); }
+.m-del-charge {
+  font-size: .75rem; color: var(--del-blue); background: rgba(26,107,181,.07);
+  border-radius: var(--r-sm); padding: 6px 12px; margin-bottom: 14px; font-weight: 600;
+}
+
+/* Form elements */
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+.fg:last-of-type { margin-bottom: 0; }
+.fl { font-size: .76rem; font-weight: 800; color: var(--ink); text-transform: uppercase; letter-spacing: .5px; }
+.fi {
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  padding: 9px 12px; font-family: var(--font-body); font-size: .86rem; color: var(--ink);
+  background: var(--bg2); transition: border-color .2s, box-shadow .2s;
+  outline: none; width: 100%;
+}
+.fi:focus { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(224,123,0,.12); }
+textarea.fi { resize: vertical; min-height: 66px; }
+select.fi { cursor: pointer; }
+.qty-row {
+  display: flex; align-items: center; gap: 14px;
+  margin: 8px 0 12px;
+}
+.ql { font-size: .78rem; font-weight: 800; color: var(--ink); flex-shrink: 0; }
+.qty-ctrl {
+  display: flex; align-items: center; gap: 0;
+  border: 1.5px solid var(--border); border-radius: 50px; overflow: hidden;
+}
+.qb {
+  width: 32px; height: 32px; border: none; background: var(--bg2);
+  font-size: 1rem; font-weight: 700; color: var(--saffron);
+  transition: background .2s;
+}
+.qb:hover { background: var(--saffron); color: var(--white); }
+.qv { width: 36px; text-align: center; font-family: var(--font-head); font-size: 1.05rem; color: var(--ink); border: none; background: transparent; outline: none; }
+.q-note { font-size: .75rem; color: var(--muted); }
+
+/* Time chips */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.chip {
+  border: 1.5px solid var(--border); border-radius: 50px;
+  padding: 6px 13px; font-size: .76rem; font-weight: 700; cursor: pointer;
+  background: var(--bg2); transition: all .2s; color: var(--muted);
+}
+.chip:hover { border-color: var(--saffron); color: var(--saffron); background: rgba(224,123,0,.05); }
+.chip.sel { border-color: var(--saffron); background: rgba(224,123,0,.1); color: var(--saffron); }
+
+/* Flower picker (custom) */
+.flower-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+.fchip {
+  border: 2px solid var(--border); border-radius: var(--r-sm);
+  padding: 9px 6px; text-align: center; cursor: pointer;
+  background: var(--bg2); transition: all .25s;
+}
+.fchip:hover { border-color: var(--saffron); background: rgba(224,123,0,.05); transform: scale(1.04); }
+.fchip.sel { border-color: var(--saffron); background: rgba(224,123,0,.1); transform: scale(1.04); }
+.fchip .fi-icon { font-size: 1.55rem; display: block; margin-bottom: 3px; }
+.fchip .fi-name { font-size: .7rem; font-weight: 700; color: var(--ink); }
+.fchip .fi-sub { font-size: .62rem; color: var(--muted); }
+.ferr { font-size: .73rem; color: var(--rose); margin-top: 3px; display: none; }
+
+/* Order total */
+.o-total {
+  background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--r-md); padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 16px 0 0; flex-wrap: wrap; gap: 8px;
+}
+.otl { font-size: .84rem; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+.otl-del { font-size: .74rem; color: var(--del-blue); font-weight: 600; }
+.ot-price { font-family: var(--font-head); font-size: 1.85rem; color: var(--saffron); }
+.o-sub-btn {
+  width: 100%; margin-top: 14px; padding: 15px;
+  background: linear-gradient(135deg, var(--sage), #1e4d38);
+  color: var(--white); border: none; border-radius: var(--r-md);
+  font-size: .98rem; font-weight: 800; letter-spacing: .2px;
+  transition: all .24s;
+}
+.o-sub-btn:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(29,77,56,.28); }
+
+/* Plan selector inside modal */
+.plan-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.plan-chip {
+  flex: 1; border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  padding: 10px 8px; text-align: center; cursor: pointer; background: var(--bg2);
+  transition: all .2s;
+}
+.plan-chip:hover { border-color: var(--saffron); transform: translateY(-1px); }
+.plan-chip.sel { border-color: var(--saffron); background: rgba(224,123,0,.09); }
+.plan-chip .pc-label { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+.plan-chip.sel .pc-label { color: var(--saffron); }
+.plan-chip .pc-price { font-family: var(--font-head); font-size: 1.35rem; color: var(--saffron); }
+.plan-chip .pc-note { font-size: .63rem; color: var(--muted); }
+
+/* Success */
+.m-success { display: none; text-align: center; padding: 10px 0; }
+.m-success.show { display: block; }
+.m-form.hidden { display: none; }
+.s-anim { font-size: 3.5rem; margin-bottom: 10px; animation: pop .5s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes pop { from{transform:scale(0);} to{transform:scale(1);} }
+/* NOTE: .s-title is reused — scoped below under .m-success for success state */
+.m-success .s-title { font-family: var(--font-head); font-size: 1.55rem; color: var(--ink); margin-bottom: 6px; }
+.s-msg { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+.s-close { margin-top: 22px; background: var(--sage); color: var(--white); border: none; padding: 11px 30px; border-radius: 50px; font-size: .9rem; font-weight: 700; transition: background .2s; }
+.s-close:hover { background: var(--saffron); }
+
+/* Sub modal header */
+.sub-modal-head {
+  background: linear-gradient(135deg, #133428, #1e4d38);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  padding: 28px 28px 22px; color: var(--white); text-align: center; position: relative;
+}
+.sub-modal-head .m-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); color: var(--white); }
+.sub-modal-head .mt { color: var(--white); }
+.smp { font-family: var(--font-head); font-size: .85rem; color: rgba(255,255,255,.55); margin-top: 6px; }
+
+/* ══════════════════════════════════════
+   WHATSAPP FAB
+══════════════════════════════════════ */
+.fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 700;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25d366; color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; box-shadow: 0 6px 24px rgba(37,211,102,.4);
+  transition: transform .25s, box-shadow .25s;
+  cursor: pointer;
+  animation: fabPulse 3s ease infinite;
+}
+.fab:hover { transform: scale(1.12); box-shadow: 0 10px 32px rgba(37,211,102,.55); animation: none; }
+@keyframes fabPulse { 0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4);} 50%{box-shadow:0 6px 32px rgba(37,211,102,.65), 0 0 0 8px rgba(37,211,102,.1);} }
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--ink); color: var(--white);
+  padding: 11px 26px; border-radius: 50px;
+  font-size: .87rem; font-weight: 600;
+  box-shadow: 0 8px 28px rgba(0,0,0,.18);
+  transition: transform .38s cubic-bezier(.34,1.56,.64,1);
+  z-index: 9999; pointer-events: none; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:900px){
+  nav { padding: 13px 20px; }
+  .nav-mid { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 108px 22px 56px; text-align: center; gap: 40px; }
+  .hero-btns { justify-content: center; }
+  .h-orb { width: 270px; height: 270px; font-size: 5.5rem; }
+  .hb3 { display: none; }
+  .section { padding: 62px 22px; }
+  .sub-grid { grid-template-columns: 1fr; gap: 38px; }
+  .f-row { grid-template-columns: 1fr; }
+  .how-step::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="petalCanvas"></canvas>
+
+<!-- ══════════════════
+     NAV
+══════════════════════ -->
+<nav id="mainNav">
+  <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">Pushpa <span class="logo-spin">✿</span></div>
+  <ul class="nav-mid">
+    <li><a href="#services" data-t="nav_services">Services</a></li>
+    <li><a href="#subscription" data-t="nav_sub">Subscribe</a></li>
+    <li><a href="#how" data-t="nav_how">How It Works</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btnHI" onclick="setLang('hi')">हिंदी</button>
+      <button class="lang-btn" id="btnMR" onclick="setLang('mr')">मराठी</button>
+    </div>
+    <button class="nav-sub-btn" onclick="openOverlay('sub')" data-t="nav_plan">Monthly Plan ₹10+</button>
+  </div>
+</nav>
+
+<!-- ══════════════════
+     DELIVERY STRIP
+══════════════════════ -->
+<div class="del-strip" id="delStrip">
+  <div class="del-item">🚚 <span data-t="del_within">Delivery within Mumbai</span></div>
+  <div class="del-item">📦 <b data-t="del_free_above">FREE above ₹99</b></div>
+  <!-- FIX: removed duplicate </span> tag -->
+  <div class="del-item">⚡ <span data-t="del_charge">₹15 delivery charge (waived on subscription)</span></div>
+  <div class="del-item">🕕 <span data-t="del_time">6 AM – 9 AM daily</span></div>
+</div>
+
+<!-- ══════════════════
+     HERO
+══════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-deco hd1"></div><div class="hero-deco hd2"></div><div class="hero-deco hd3"></div>
+  <div class="hero-left">
+    <div class="hero-pill"><div class="pill-dot"></div> <span data-t="hero_pill">Mumbai's Freshest Flowers</span></div>
+    <h1><span data-t="hero_h1a">Sacred</span> <em data-t="hero_h1b">Blooms,</em><br><span class="g" data-t="hero_h1c">Fresh</span> <span data-t="hero_h1d">Every Dawn</span></h1>
+    <p class="hero-sub" data-t="hero_sub">Hand-picked pooja flowers, beautiful gajara &amp; custom arrangements — delivered to your doorstep before sunrise. Starting ₹15 per bundle. Subscribe for just ₹10/month.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-prim" data-t="hero_btn1">🌺 Explore Flowers</a>
+      <button class="btn-sec" onclick="openOverlay('sub')" data-t="hero_btn2">✨ Monthly Plan</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="h-orb">
+      <span class="h-orb-emoji">🌸</span>
+      <div class="h-badge hb2">
+        <span>🚚 <span data-t="orb_home">Home Delivery</span></span>
+        <strong>6 AM – 9 AM</strong>
+      </div>
+      <div class="h-badge hb3">
+        <span>⭐ <span data-t="orb_rated">Top Rated</span></span>
+        <strong>500+ <span data-t="orb_happy">Happy</span></strong>
+      </div>
+      <div class="h-badge hb1">
+        <span data-t="orb_from">Starting from</span>
+        <strong>₹15 / <span data-t="orb_bundle">bundle</span></strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-box sr"><span class="stat-n" id="cnt-customers">0</span><div class="stat-l" data-t="st1">Happy Customers</div></div>
+  <div class="stat-box sr"><span class="stat-n" id="cnt-varieties">0</span><div class="stat-l" data-t="st2">Flower Varieties</div></div>
+  <div class="stat-box sr"><span class="stat-n" data-t="st3n">Daily</span><div class="stat-l" data-t="st3">Fresh Delivery</div></div>
+  <div class="stat-box sr"><span class="stat-n">100%</span><div class="stat-l" data-t="st4">Freshness Promise</div></div>
+  <div class="stat-box sr"><span class="stat-n">₹10</span><div class="stat-l" data-t="st5">Lowest Monthly Plan</div></div>
+</div>
+
+<!-- ══════════════════
+     SERVICES
+══════════════════════ -->
+<section class="section" id="services">
+  <div class="tc sr">
+    <div class="s-tag" data-t="svc_tag">Our Services</div>
+    <h2 class="s-title" data-t="svc_title">Choose Your Bloom</h2>
+    <p class="s-sub" data-t="svc_sub">Click any card to order instantly. Toggle between one-time and subscription pricing below.</p>
+  </div>
+
+  <!-- Price mode toggle -->
+  <div class="price-toggle-wrap">
+    <div class="price-toggle">
+      <button class="pt-btn active" id="ptOne" onclick="setPriceMode('one')" data-t="pt_one">🛒 One-Time</button>
+      <button class="pt-btn" id="ptSub" onclick="setPriceMode('sub')">
+        <span data-t="pt_sub">📅 Monthly</span>
+        <span class="pt-badge" data-t="pt_save">SAVE 33%</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="cards-grid" id="cardsGrid">
+
+    <!-- POOJA FLOWERS -->
+    <div class="scard sr" onclick="openModal('pooja')">
+      <div class="sc-icon">🪷</div>
+      <div class="sc-name" data-t="c1_name">Pooja Flowers</div>
+      <div class="sc-desc" data-t="c1_desc">Sacred jasmine, marigold &amp; rose petals — perfectly curated for your daily puja rituals and divine offerings.</div>
+      <div class="sc-bottom">
+        <div class="sc-prices">
+          <div class="sc-price-now" id="p-pooja">₹15</div>
+          <div class="sc-price-sub" id="ps-pooja">Monthly: ₹10</div>
+          <div class="sc-price-unit" data-t="per_bundle">per bundle</div>
+        </div>
+        <button class="sc-btn" onclick="openModal('pooja');event.stopPropagation()" data-t="order_now">Order Now →</button>
+      </div>
+    </div>
+
+    <!-- GAJARA FLOWERS -->
+    <div class="scard sr" onclick="openModal('gajara_flowers')">
+      <div class="sc-icon">🌼</div>
+      <div class="sc-name" data-t="c2_name">Gajara Flowers</div>
+      <div class="sc-desc" data-t="c2_desc">Fresh fragrant flowers chosen for crafting beautiful gajara — strung with devotion for hair adornment and bridal needs.</div>
+      <div class="sc-bottom">
+        <div class="sc-prices">
+          <div class="sc-price-now" id="p-gajara_flowers">₹20</div>
+          <div class="sc-price-sub" id="ps-gajara_flowers">Monthly: ₹15</div>
+          <div class="sc-price-unit" data-t="per_bundle">per bundle</div>
+        </div>
+        <button class="sc-btn" onclick="openModal('gajara_flowers');event.stopPropagation()" data-t="order_now">Order Now →</button>
+      </div>
+    </div>
+
+    <!-- GAJARA -->
+    <div class="scard sr" onclick="openModal('gajara')">
+      <div class="sc-ribbon" style="background:var(--rose);color:#fff;" data-t="ribbon_ready">Ready-made</div>
+      <div class="sc-icon">💐</div>
+      <div class="sc-name" data-t="c3_name">Gajara</div>
+      <div class="sc-desc" data-t="c3_desc">Beautifully threaded jasmine strings — ready-to-wear, crafted fresh every morning for daily wear &amp; special occasions.</div>
+      <div class="sc-bottom">
+        <div class="sc-prices">
+          <div class="sc-price-now" id="p-gajara">₹25</div>
+          <div class="sc-price-sub" id="ps-gajara">Monthly: ₹19</div>
+          <div class="sc-price-unit" data-t="per_string">per string</div>
+        </div>
+        <button class="sc-btn" onclick="openModal('gajara');event.stopPropagation()" data-t="order_now">Order Now →</button>
+      </div>
+    </div>
+
+    <!-- CUSTOMIZED -->
+    <div class="scard featured sr" onclick="openModal('custom')">
+      <div class="sc-ribbon" style="background:var(--gold);color:var(--ink);" data-t="ribbon_pop">★ Popular</div>
+      <div class="sc-icon">🌺</div>
+      <div class="sc-name" data-t="c4_name">Customized Flowers</div>
+      <div class="sc-desc" data-t="c4_desc">Pick your favourite blooms — rose, jasmine, marigold &amp; more. We craft a personalized fresh arrangement just for you.</div>
+      <div class="sc-bottom">
+        <div class="sc-prices">
+          <div class="sc-price-now" id="p-custom">₹30</div>
+          <div class="sc-price-sub" id="ps-custom">Monthly: ₹25</div>
+          <div class="sc-price-unit" data-t="per_arr">per arrangement</div>
+        </div>
+        <button class="sc-btn" onclick="openModal('custom');event.stopPropagation()" data-t="customize_btn">Customize →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Delivery note -->
+  <div class="del-note sr" id="delNote">
+    <span>🚚 <b data-t="dn1">Delivery Charge: ₹15</b> <span data-t="dn2">per order (flat)</span></span>
+    <span>📦 <b data-t="dn3">FREE delivery</b> <span data-t="dn4">on orders above ₹99</span></span>
+    <span>⭐ <b data-t="dn5">No delivery charge</b> <span data-t="dn6">on Monthly Subscription</span></span>
+  </div>
+</section>
+
+<!-- ══════════════════
+     SUBSCRIPTION
+══════════════════════ -->
+<section class="section" id="subscription">
+  <div class="sub-grid">
+    <div class="sr-l">
+      <div class="s-tag" data-t="sub_tag">Monthly Subscription</div>
+      <h2 class="s-title" style="color:#fff" data-t="sub_title">Fresh Flowers Daily,<br>for a Price You'll Love</h2>
+      <p class="s-sub" data-t="sub_sub">Subscribe once and never worry about flowers again. We bring them to your door every single morning — rain or shine — with zero delivery charges.</p>
+      <div class="sub-feats">
+        <div class="sub-feat"><div class="sfi">🌅</div><div><strong data-t="sf1h">Daily Morning Delivery</strong><span data-t="sf1b">Fresh flowers at your door every day between 6–9 AM, free of delivery charge</span></div></div>
+        <div class="sub-feat"><div class="sfi">💰</div><div><strong data-t="sf2h">Massive Savings</strong><span data-t="sf2b">Save up to 33% vs one-time pricing. Zero delivery charges on subscription</span></div></div>
+        <div class="sub-feat"><div class="sfi">🔄</div><div><strong data-t="sf3h">Pause Anytime</strong><span data-t="sf3b">Travelling? Pause or reschedule with no penalty whatsoever</span></div></div>
+        <div class="sub-feat"><div class="sfi">⭐</div><div><strong data-t="sf4h">Priority Service</strong><span data-t="sf4b">Subscribers get first delivery and the freshest morning picks</span></div></div>
+      </div>
+    </div>
+    <div class="sub-card sr-r">
+      <div class="sub-badge" data-t="sub_badge">Best Value</div>
+      <div style="font-size:2.4rem;margin-bottom:6px;">🌸</div>
+      <ul class="sub-prices-list">
+        <li><span data-t="c1_name">Pooja Flowers</span><strong>₹10<span style="font-size:.75rem;font-family:var(--font-body)">/mo</span></strong></li>
+        <li><span data-t="c2_name">Gajara Flowers</span><strong>₹15<span style="font-size:.75rem;font-family:var(--font-body)">/mo</span></strong></li>
+        <li><span data-t="c3_name">Gajara</span><strong>₹19<span style="font-size:.75rem;font-family:var(--font-body)">/mo</span></strong></li>
+        <li><span data-t="c4_name">Customized</span><strong>₹25<span style="font-size:.75rem;font-family:var(--font-body)">/mo</span></strong></li>
+      </ul>
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,.1);margin:4px 0 14px"/>
+      <ul class="sub-perks">
+        <li data-t="sp1">Daily fresh flowers (your choice)</li>
+        <li data-t="sp2">FREE delivery — no extra charge</li>
+        <li data-t="sp3">Pause / reschedule anytime</li>
+        <li data-t="sp4">Priority morning delivery slot</li>
+        <li data-t="sp5">Free festive special bundles</li>
+      </ul>
+      <button class="sub-cta" onclick="openOverlay('sub')" data-t="sub_cta">Subscribe Now 🌸</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════
+     HOW IT WORKS
+══════════════════════ -->
+<section class="section" id="how" style="background:var(--bg)">
+  <div class="tc sr">
+    <div class="s-tag" data-t="how_tag">How It Works</div>
+    <h2 class="s-title" data-t="how_title">Flowers at Your Door in 3 Steps</h2>
+    <p class="s-sub" data-t="how_sub">Fresh, fragrant, and fuss-free. From click to doorstep in minutes.</p>
+  </div>
+  <div class="how-grid">
+    <div class="how-step sr"><div class="how-num">1</div><div class="how-icon">🌺</div><div class="how-title" data-t="hs1t">Choose &amp; Click</div><div class="how-desc" data-t="hs1d">Browse our four flower options and click any card to open the order popup instantly.</div></div>
+    <div class="how-step sr"><div class="how-num">2</div><div class="how-icon">📝</div><div class="how-title" data-t="hs2t">Fill Details</div><div class="how-desc" data-t="hs2d">Enter your name, address, delivery time &amp; select one-time or subscription plan in the popup.</div></div>
+    <div class="how-step sr"><div class="how-num">3</div><div class="how-icon">🚚</div><div class="how-title" data-t="hs3t">We Deliver</div><div class="how-desc" data-t="hs3d">We pick flowers at dawn and deliver them fresh to your home — full of fragrance &amp; life.</div></div>
+    <div class="how-step sr"><div class="how-num">4</div><div class="how-icon">🙏</div><div class="how-title" data-t="hs4t">Enjoy Daily</div><div class="how-desc" data-t="hs4d">Start every morning with divine freshness. Subscribe to never run out again — ever.</div></div>
+  </div>
+</section>
+
+<footer>
+  <p>🌸 <strong>Pushpa Flowers</strong> — <span data-t="foot1">Fresh Flower Home Delivery · Mumbai</span></p>
+  <p style="margin-top:5px"><span data-t="foot2">Delivering freshness &amp; fragrance daily</span> · <a href="tel:+919876543210">+91 98765 43210</a></p>
+  <p style="margin-top:8px;font-size:.74rem;opacity:.55" data-t="foot3">© 2025 Pushpa Flowers. Made with love &amp; fresh petals 🌿</p>
+</footer>
+
+<!-- WhatsApp FAB -->
+<button class="fab" onclick="window.open('https://wa.me/919876543210?text=Hi! I want to order flowers from Pushpa Flowers','_blank')" title="Chat on WhatsApp">💬</button>
+
+<!-- ══════════════════════════════════════
+     MODALS
+══════════════════════════════════════ -->
+
+<!-- ── POOJA FLOWERS ── -->
+<div class="overlay" id="ov-pooja">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">🪷</span>
+      <div class="modal-title-wrap"><div class="mt" data-t="c1_name">Pooja Flowers</div><div class="ms" data-t="c1_ms">Sacred blend for your daily rituals</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('pooja')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-pooja">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span data-t="mpb_unit">Price per bundle</span><span class="mpb-sub" id="pbar-sub-pooja">Subscribe: ₹10/mo · Free delivery</span></div>
+        <div class="mpb-price" id="pbar-pooja">₹15</div>
+      </div>
+      <div class="m-del-charge">🚚 <span data-t="m_del">₹15 delivery charge applies · FREE on subscription</span></div>
+      <div class="fl" style="margin-bottom:6px" data-t="choose_plan">Choose Plan</div>
+      <div class="plan-row" id="plan-pooja">
+        <div class="plan-chip sel" onclick="pickPlan('pooja','one',this)" data-plan="one">
+          <div class="pc-label" data-t="pt_one_s">One-Time</div>
+          <div class="pc-price">₹15</div>
+          <div class="pc-note" data-t="per_bundle">per bundle</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('pooja','sub',this)" data-plan="sub">
+          <div class="pc-label" data-t="pt_sub_s">Monthly</div>
+          <div class="pc-price">₹10</div>
+          <div class="pc-note" data-t="per_mo">per month</div>
+        </div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl" data-t="your_name">Your Name</label><input class="fi" id="pooja-n" placeholder="e.g. Priya Sharma"/></div>
+        <div class="fg"><label class="fl" data-t="phone">Phone</label><input class="fi" id="pooja-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl" data-t="address">Delivery Address</label><input class="fi" id="pooja-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="qty-row"><span class="ql" data-t="qty">Quantity</span>
+        <div class="qty-ctrl">
+          <button class="qb" onclick="chgQ('pooja',-1)">−</button>
+          <span class="qv" id="q-pooja">1</span>
+          <button class="qb" onclick="chgQ('pooja',1)">+</button>
+        </div>
+        <span class="q-note" data-t="bundle_s">bundle(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px" data-t="del_time_l">Delivery Time</div>
+      <div class="chips" id="tc-pooja">
+        <div class="chip sel" onclick="pickChip('tc-pooja',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-pooja',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-pooja',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl" data-t="note_opt">Note (Optional)</label><textarea class="fi" id="pooja-note" placeholder="Any preference..."></textarea></div>
+      <div class="o-total">
+        <div class="otl">
+          <span id="ots-pooja">1 bundle × ₹15</span>
+          <span class="otl-del" id="otd-pooja">+ ₹15 delivery</span>
+        </div>
+        <div class="ot-price" id="otp-pooja">₹30</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitOrder('pooja')" data-t="confirm_order">🌸 Confirm Order</button>
+    </div>
+    <div class="m-success" id="ms-pooja">
+      <div class="s-anim">🎉</div>
+      <div class="s-title" data-t="success_title">Order Confirmed!</div>
+      <div class="s-msg" id="smsg-pooja"></div>
+      <button class="s-close" onclick="closeOverlay('pooja')" data-t="done">Done</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── GAJARA FLOWERS ── -->
+<div class="overlay" id="ov-gajara_flowers">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">🌼</span>
+      <div class="modal-title-wrap"><div class="mt" data-t="c2_name">Gajara Flowers</div><div class="ms" data-t="c2_ms">Fresh flowers for your perfect gajara</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('gajara_flowers')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-gajara_flowers">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span data-t="mpb_unit">Price per bundle</span><span class="mpb-sub" id="pbar-sub-gajara_flowers">Subscribe: ₹15/mo · Free delivery</span></div>
+        <div class="mpb-price" id="pbar-gajara_flowers">₹20</div>
+      </div>
+      <div class="m-del-charge">🚚 <span data-t="m_del">₹15 delivery charge applies · FREE on subscription</span></div>
+      <div class="fl" style="margin-bottom:6px" data-t="choose_plan">Choose Plan</div>
+      <div class="plan-row" id="plan-gajara_flowers">
+        <div class="plan-chip sel" onclick="pickPlan('gajara_flowers','one',this)" data-plan="one">
+          <div class="pc-label" data-t="pt_one_s">One-Time</div><div class="pc-price">₹20</div><div class="pc-note" data-t="per_bundle">per bundle</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('gajara_flowers','sub',this)" data-plan="sub">
+          <div class="pc-label" data-t="pt_sub_s">Monthly</div><div class="pc-price">₹15</div><div class="pc-note" data-t="per_mo">per month</div>
+        </div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl" data-t="your_name">Your Name</label><input class="fi" id="gf-n" placeholder="e.g. Anita Patil"/></div>
+        <div class="fg"><label class="fl" data-t="phone">Phone</label><input class="fi" id="gf-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl" data-t="address">Delivery Address</label><input class="fi" id="gf-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="qty-row"><span class="ql" data-t="qty">Quantity</span>
+        <div class="qty-ctrl"><button class="qb" onclick="chgQ('gf',-1)">−</button><span class="qv" id="q-gf">1</span><button class="qb" onclick="chgQ('gf',1)">+</button></div>
+        <span class="q-note" data-t="bundle_s">bundle(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px" data-t="del_time_l">Delivery Time</div>
+      <div class="chips" id="tc-gf">
+        <div class="chip sel" onclick="pickChip('tc-gf',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-gf',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-gf',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl" data-t="note_opt">Note (Optional)</label><textarea class="fi" id="gf-note"></textarea></div>
+      <div class="o-total">
+        <div class="otl"><span id="ots-gf">1 bundle × ₹20</span><span class="otl-del" id="otd-gf">+ ₹15 delivery</span></div>
+        <div class="ot-price" id="otp-gf">₹35</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitOrder('gajara_flowers')" data-t="confirm_order">🌼 Confirm Order</button>
+    </div>
+    <div class="m-success" id="ms-gajara_flowers"><div class="s-anim">🎉</div><div class="s-title" data-t="success_title">Order Confirmed!</div><div class="s-msg" id="smsg-gajara_flowers"></div><button class="s-close" onclick="closeOverlay('gajara_flowers')" data-t="done">Done</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ── GAJARA ── -->
+<div class="overlay" id="ov-gajara">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">💐</span>
+      <div class="modal-title-wrap"><div class="mt" data-t="c3_name">Gajara</div><div class="ms" data-t="c3_ms">Ready-made jasmine strings, fresh daily</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('gajara')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-gajara">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span data-t="mpb_str">Price per string</span><span class="mpb-sub" id="pbar-sub-gajara">Subscribe: ₹19/mo · Free delivery</span></div>
+        <div class="mpb-price" id="pbar-gajara">₹25</div>
+      </div>
+      <div class="m-del-charge">🚚 <span data-t="m_del">₹15 delivery charge applies · FREE on subscription</span></div>
+      <div class="fl" style="margin-bottom:6px" data-t="choose_plan">Choose Plan</div>
+      <div class="plan-row" id="plan-gajara">
+        <div class="plan-chip sel" onclick="pickPlan('gajara','one',this)" data-plan="one">
+          <div class="pc-label" data-t="pt_one_s">One-Time</div><div class="pc-price">₹25</div><div class="pc-note" data-t="per_string">per string</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('gajara','sub',this)" data-plan="sub">
+          <div class="pc-label" data-t="pt_sub_s">Monthly</div><div class="pc-price">₹19</div><div class="pc-note" data-t="per_mo">per month</div>
+        </div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl" data-t="your_name">Your Name</label><input class="fi" id="ga-n" placeholder="e.g. Meena Joshi"/></div>
+        <div class="fg"><label class="fl" data-t="phone">Phone</label><input class="fi" id="ga-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl" data-t="address">Delivery Address</label><input class="fi" id="ga-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="qty-row"><span class="ql" data-t="qty">Quantity</span>
+        <div class="qty-ctrl"><button class="qb" onclick="chgQ('ga',-1)">−</button><span class="qv" id="q-ga">1</span><button class="qb" onclick="chgQ('ga',1)">+</button></div>
+        <span class="q-note" data-t="string_s">string(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px" data-t="del_time_l">Delivery Time</div>
+      <div class="chips" id="tc-ga">
+        <div class="chip sel" onclick="pickChip('tc-ga',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-ga',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-ga',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl" data-t="note_opt">Note (Optional)</label><textarea class="fi" id="ga-note"></textarea></div>
+      <div class="o-total">
+        <div class="otl"><span id="ots-ga">1 string × ₹25</span><span class="otl-del" id="otd-ga">+ ₹15 delivery</span></div>
+        <div class="ot-price" id="otp-ga">₹40</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitOrder('gajara')" data-t="confirm_order">💐 Confirm Order</button>
+    </div>
+    <div class="m-success" id="ms-gajara"><div class="s-anim">🎉</div><div class="s-title" data-t="success_title">Order Confirmed!</div><div class="s-msg" id="smsg-gajara"></div><button class="s-close" onclick="closeOverlay('gajara')" data-t="done">Done</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ── CUSTOM FLOWERS ── -->
+<div class="overlay" id="ov-custom">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">🌺</span>
+      <div class="modal-title-wrap"><div class="mt" data-t="c4_name">Customized Flowers</div><div class="ms" data-t="c4_ms">Pick your perfect blooms — we'll do the rest</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('custom')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-custom">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span data-t="mpb_arr">Base price per arrangement</span><span class="mpb-sub" id="pbar-sub-custom">Subscribe: ₹25/mo · Free delivery</span></div>
+        <div class="mpb-price" id="pbar-custom">₹30</div>
+      </div>
+      <div class="m-del-charge">🚚 <span data-t="m_del">₹15 delivery charge applies · FREE on subscription</span></div>
+      <div class="fl" style="margin-bottom:6px" data-t="choose_plan">Choose Plan</div>
+      <div class="plan-row" id="plan-custom">
+        <div class="plan-chip sel" onclick="pickPlan('custom','one',this)" data-plan="one">
+          <div class="pc-label" data-t="pt_one_s">One-Time</div><div class="pc-price">₹30</div><div class="pc-note" data-t="per_arr">per arrangement</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('custom','sub',this)" data-plan="sub">
+          <div class="pc-label" data-t="pt_sub_s">Monthly</div><div class="pc-price">₹25</div><div class="pc-note" data-t="per_mo">per month</div>
+        </div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl" data-t="your_name">Your Name</label><input class="fi" id="cu-n" placeholder="e.g. Sunita Rao"/></div>
+        <div class="fg"><label class="fl" data-t="phone">Phone</label><input class="fi" id="cu-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl" data-t="address">Delivery Address</label><input class="fi" id="cu-a" placeholder="House no., Street, Area, City"/></div>
+
+      <!-- Flower picker -->
+      <div class="fg">
+        <label class="fl" data-t="sel_flowers">Select Flowers (one or more)</label>
+        <div class="flower-grid" id="flowerPicker">
+          <div class="fchip" onclick="toggleF(this,'Rose')"><span class="fi-icon">🌹</span><span class="fi-name" data-t="f_rose">Rose</span><span class="fi-sub" data-t="f_rose_s">Love &amp; grace</span></div>
+          <div class="fchip" onclick="toggleF(this,'Jasmine')"><span class="fi-icon">🤍</span><span class="fi-name" data-t="f_jas">Jasmine</span><span class="fi-sub" data-t="f_jas_s">Sweet fragrance</span></div>
+          <div class="fchip" onclick="toggleF(this,'Marigold')"><span class="fi-icon">🌻</span><span class="fi-name" data-t="f_mar">Marigold</span><span class="fi-sub" data-t="f_mar_s">Auspicious</span></div>
+          <div class="fchip" onclick="toggleF(this,'Lotus')"><span class="fi-icon">🪷</span><span class="fi-name" data-t="f_lot">Lotus</span><span class="fi-sub" data-t="f_lot_s">Divine &amp; pure</span></div>
+          <div class="fchip" onclick="toggleF(this,'Chrysanthemum')"><span class="fi-icon">🌸</span><span class="fi-name" data-t="f_chr">Chrysanthemum</span><span class="fi-sub" data-t="f_chr_s">Elegant bloom</span></div>
+          <div class="fchip" onclick="toggleF(this,'Tuberose')"><span class="fi-icon">🌷</span><span class="fi-name" data-t="f_tub">Tuberose</span><span class="fi-sub" data-t="f_tub_s">Rich &amp; exotic</span></div>
+          <div class="fchip" onclick="toggleF(this,'Sunflower')"><span class="fi-icon">🌞</span><span class="fi-name" data-t="f_sun">Sunflower</span><span class="fi-sub" data-t="f_sun_s">Bright &amp; cheerful</span></div>
+          <div class="fchip" onclick="toggleF(this,'Hibiscus')"><span class="fi-icon">🌺</span><span class="fi-name" data-t="f_hib">Hibiscus</span><span class="fi-sub" data-t="f_hib_s">Bold &amp; tropical</span></div>
+          <div class="fchip" onclick="toggleF(this,'Lavender')"><span class="fi-icon">💜</span><span class="fi-name" data-t="f_lav">Lavender</span><span class="fi-sub" data-t="f_lav_s">Calming aroma</span></div>
+        </div>
+        <div class="ferr" id="ferr" data-t="ferr">Please select at least one flower type.</div>
+      </div>
+
+      <div class="qty-row"><span class="ql" data-t="qty">Quantity</span>
+        <div class="qty-ctrl"><button class="qb" onclick="chgQ('cu',-1)">−</button><span class="qv" id="q-cu">1</span><button class="qb" onclick="chgQ('cu',1)">+</button></div>
+        <span class="q-note" data-t="arr_s">arrangement(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px" data-t="del_time_l">Delivery Time</div>
+      <div class="chips" id="tc-cu">
+        <div class="chip sel" onclick="pickChip('tc-cu',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-cu',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-cu',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl" data-t="occasion_l">Occasion / Note (Optional)</label><textarea class="fi" id="cu-note" placeholder="e.g. Ganesh puja, bridal, gift..."></textarea></div>
+      <div class="o-total">
+        <div class="otl"><span id="ots-cu">1 arrangement × ₹30</span><span class="otl-del" id="otd-cu">+ ₹15 delivery</span></div>
+        <div class="ot-price" id="otp-cu">₹45</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitCustom()" data-t="confirm_custom">🌺 Confirm Custom Order</button>
+    </div>
+    <div class="m-success" id="ms-custom"><div class="s-anim">🎉</div><div class="s-title" data-t="success_title">Order Confirmed!</div><div class="s-msg" id="smsg-custom"></div><button class="s-close" onclick="closeOverlay('custom')" data-t="done">Done</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ── SUBSCRIPTION MODAL ── -->
+<div class="overlay" id="ov-sub">
+<div class="modal">
+  <div class="sub-modal-head">
+    <button class="m-close" onclick="closeOverlay('sub')">✕</button>
+    <div style="font-size:2.8rem;margin-bottom:8px">🌸</div>
+    <div class="mt" data-t="sub_modal_title">Monthly Flower Subscription</div>
+    <div class="smp" data-t="sub_modal_sub">Zero delivery charges · Pause anytime · Priority morning slot</div>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-sub">
+      <ul class="sub-prices-list" style="margin-bottom:16px">
+        <li><span data-t="c1_name">Pooja Flowers</span><strong>₹10<span style="font-size:.72rem;font-family:var(--font-body)">/mo</span></strong></li>
+        <li><span data-t="c2_name">Gajara Flowers</span><strong>₹15<span style="font-size:.72rem;font-family:var(--font-body)">/mo</span></strong></li>
+        <li><span data-t="c3_name">Gajara</span><strong>₹19<span style="font-size:.72rem;font-family:var(--font-body)">/mo</span></strong></li>
+        <li><span data-t="c4_name">Customized</span><strong>₹25<span style="font-size:.72rem;font-family:var(--font-body)">/mo</span></strong></li>
+      </ul>
+      <div class="f-row">
+        <div class="fg"><label class="fl" data-t="your_name">Your Name</label><input class="fi" id="sb-n" placeholder="e.g. Kavita Mehta"/></div>
+        <div class="fg"><label class="fl" data-t="phone">Phone</label><input class="fi" id="sb-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl" data-t="address">Delivery Address</label><input class="fi" id="sb-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="fg">
+        <label class="fl" data-t="flower_pref">Preferred Flower</label>
+        <select class="fi" id="sb-fl">
+          <option value="" data-t="sel_opt">-- Select flower type --</option>
+          <option value="Pooja Flowers|10">🪷 Pooja Flowers – ₹10/mo</option>
+          <option value="Gajara Flowers|15">🌼 Gajara Flowers – ₹15/mo</option>
+          <option value="Gajara|19">💐 Gajara – ₹19/mo</option>
+          <option value="Customized|25">🌺 Customized – ₹25/mo</option>
+        </select>
+      </div>
+      <div class="fl" style="margin-bottom:6px" data-t="del_time_l">Preferred Delivery Time</div>
+      <div class="chips" id="tc-sb">
+        <div class="chip sel" onclick="pickChip('tc-sb',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-sb',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-sb',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl" data-t="start_date">Start Date</label><input type="date" class="fi" id="sb-d"/></div>
+      <div class="o-total" style="background:rgba(45,106,79,.07);border-color:rgba(45,106,79,.2)">
+        <div class="otl"><span data-t="sub_total_l">Monthly Subscription</span><span class="otl-del" style="color:var(--sage);font-weight:800" data-t="del_free">✓ FREE Delivery included</span></div>
+        <div class="ot-price" style="color:var(--sage)" id="sub-total">₹10/mo</div>
+      </div>
+      <button class="o-sub-btn" style="background:linear-gradient(135deg,var(--saffron),#b85e08)" onclick="submitSub()" data-t="sub_confirm">✨ Subscribe Now</button>
+    </div>
+    <div class="m-success" id="ms-sub"><div class="s-anim">🌸</div><div class="s-title" data-t="welcome_title">Welcome to the Family!</div><div class="s-msg" id="smsg-sub"></div><button class="s-close" onclick="closeOverlay('sub')" style="background:var(--saffron)" data-t="wonderful">Wonderful!</button></div>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════
+   TRANSLATIONS — EN / HI / MR
+═══════════════════════════════════════════ */
+const T = {
+  en: {
+    nav_services:"Services", nav_sub:"Subscribe", nav_how:"How It Works",
+    nav_plan:"Monthly Plan ₹10+",
+    del_within:"Delivery within Mumbai",
+    del_free_above:"FREE above ₹99",
+    del_charge:"₹15 delivery charge (waived on subscription)",
+    del_time:"6 AM – 9 AM daily",
+    hero_pill:"Mumbai's Freshest Flowers",
+    hero_h1a:"Sacred", hero_h1b:"Blooms,", hero_h1c:"Fresh", hero_h1d:"Every Dawn",
+    hero_sub:"Hand-picked pooja flowers, beautiful gajara & custom arrangements — delivered to your doorstep before sunrise. Starting ₹15 per bundle. Subscribe for just ₹10/month.",
+    hero_btn1:"🌺 Explore Flowers", hero_btn2:"✨ Monthly Plan",
+    orb_from:"Starting from", orb_bundle:"bundle", orb_home:"Home Delivery",
+    orb_rated:"Top Rated", orb_happy:"Happy",
+    st1:"Happy Customers", st2:"Flower Varieties", st3n:"Daily", st3:"Fresh Delivery",
+    st4:"Freshness Promise", st5:"Lowest Monthly Plan",
+    svc_tag:"Our Services", svc_title:"Choose Your Bloom",
+    svc_sub:"Click any card to order instantly. Toggle between one-time and subscription pricing below.",
+    pt_one:"🛒 One-Time", pt_sub:"📅 Monthly", pt_save:"SAVE 33%",
+    c1_name:"Pooja Flowers", c1_desc:"Sacred jasmine, marigold & rose petals — perfectly curated for your daily puja rituals and divine offerings.", c1_ms:"Sacred blend for your daily rituals",
+    c2_name:"Gajara Flowers", c2_desc:"Fresh fragrant flowers chosen for crafting beautiful gajara — strung with devotion for hair adornment and bridal needs.", c2_ms:"Fresh flowers for your perfect gajara",
+    c3_name:"Gajara", c3_desc:"Beautifully threaded jasmine strings — ready-to-wear, crafted fresh every morning for daily wear & special occasions.", c3_ms:"Ready-made jasmine strings, fresh daily",
+    c4_name:"Customized Flowers", c4_desc:"Pick your favourite blooms — rose, jasmine, marigold & more. We craft a personalized fresh arrangement just for you.", c4_ms:"Pick your perfect blooms — we'll do the rest",
+    ribbon_ready:"Ready-made", ribbon_pop:"★ Popular",
+    per_bundle:"per bundle", per_string:"per string", per_arr:"per arrangement",
+    order_now:"Order Now →", customize_btn:"Customize →",
+    dn1:"Delivery Charge: ₹15", dn2:"per order (flat)", dn3:"FREE delivery",
+    dn4:"on orders above ₹99", dn5:"No delivery charge", dn6:"on Monthly Subscription",
+    sub_tag:"Monthly Subscription",
+    sub_title:"Fresh Flowers Daily,\nfor a Price You'll Love",
+    sub_sub:"Subscribe once and never worry about flowers again. We bring them to your door every single morning — rain or shine — with zero delivery charges.",
+    sf1h:"Daily Morning Delivery", sf1b:"Fresh flowers at your door every day between 6–9 AM, free of delivery charge",
+    sf2h:"Massive Savings", sf2b:"Save up to 33% vs one-time pricing. Zero delivery charges on subscription",
+    sf3h:"Pause Anytime", sf3b:"Travelling? Pause or reschedule with no penalty whatsoever",
+    sf4h:"Priority Service", sf4b:"Subscribers get first delivery and the freshest morning picks",
+    sub_badge:"Best Value",
+    sp1:"Daily fresh flowers (your choice)", sp2:"FREE delivery — no extra charge",
+    sp3:"Pause / reschedule anytime", sp4:"Priority morning delivery slot",
+    sp5:"Free festive special bundles",
+    sub_cta:"Subscribe Now 🌸",
+    how_tag:"How It Works", how_title:"Flowers at Your Door in 3 Steps",
+    how_sub:"Fresh, fragrant, and fuss-free. From click to doorstep in minutes.",
+    hs1t:"Choose & Click", hs1d:"Browse our four flower options and click any card to open the order popup instantly.",
+    hs2t:"Fill Details", hs2d:"Enter your name, address, delivery time & select one-time or subscription plan in the popup.",
+    hs3t:"We Deliver", hs3d:"We pick flowers at dawn and deliver them fresh to your home — full of fragrance & life.",
+    hs4t:"Enjoy Daily", hs4d:"Start every morning with divine freshness. Subscribe to never run out again — ever.",
+    foot1:"Fresh Flower Home Delivery · Mumbai",
+    foot2:"Delivering freshness & fragrance daily",
+    foot3:"© 2025 Pushpa Flowers. Made with love & fresh petals 🌿",
+    mpb_unit:"Price per bundle", mpb_str:"Price per string", mpb_arr:"Base price per arrangement",
+    m_del:"₹15 delivery charge applies · FREE on subscription",
+    choose_plan:"Choose Plan", your_name:"Your Name", phone:"Phone",
+    address:"Delivery Address", qty:"Quantity",
+    bundle_s:"bundle(s)", string_s:"string(s)", arr_s:"arrangement(s)",
+    del_time_l:"Delivery Time", note_opt:"Note (Optional)",
+    confirm_order:"🌸 Confirm Order", confirm_custom:"🌺 Confirm Custom Order",
+    pt_one_s:"One-Time", pt_sub_s:"Monthly", per_mo:"per month",
+    sel_flowers:"Select Flowers (one or more)",
+    f_rose:"Rose", f_rose_s:"Love & grace",
+    f_jas:"Jasmine", f_jas_s:"Sweet fragrance",
+    f_mar:"Marigold", f_mar_s:"Auspicious",
+    f_lot:"Lotus", f_lot_s:"Divine & pure",
+    f_chr:"Chrysanthemum", f_chr_s:"Elegant bloom",
+    f_tub:"Tuberose", f_tub_s:"Rich & exotic",
+    f_sun:"Sunflower", f_sun_s:"Bright & cheerful",
+    f_hib:"Hibiscus", f_hib_s:"Bold & tropical",
+    f_lav:"Lavender", f_lav_s:"Calming aroma",
+    ferr:"Please select at least one flower type.",
+    occasion_l:"Occasion / Note (Optional)",
+    success_title:"Order Confirmed!", done:"Done",
+    sub_modal_title:"Monthly Flower Subscription",
+    sub_modal_sub:"Zero delivery charges · Pause anytime · Priority morning slot",
+    sel_opt:"-- Select flower type --",
+    flower_pref:"Preferred Flower", start_date:"Start Date",
+    sub_total_l:"Monthly Subscription", del_free:"✓ FREE Delivery included",
+    sub_confirm:"✨ Subscribe Now",
+    welcome_title:"Welcome to the Family!", wonderful:"Wonderful!",
+    toast_name:"Please enter your name",
+    toast_phone:"Enter a valid 10-digit phone",
+    toast_addr:"Please enter delivery address",
+    toast_flower:"Please select flower type",
+    toast_flowers:"Please select at least one flower",
+    sub_success:"Your ₹{price}/month subscription is confirmed. Fresh flowers every morning at {time}. We'll call {name} on {phone} to confirm your first delivery. No delivery charges — ever!",
+    order_success:"Thank you, {name}! Your {qty} {unit}(s) of {flower} ({plan}) worth ₹{sub} + ₹{del} delivery = ₹{total} will be delivered at {time} tomorrow. We'll call you on {phone}.",
+    order_sub_success:"Thank you, {name}! Your subscription order for {flower} starts from tomorrow. ₹{price}/month with FREE daily delivery at {time}. We'll call you on {phone}.",
+    custom_success:"Thank you, {name}! Your custom arrangement with {flowers} ({plan}) worth ₹{sub} + ₹{del} delivery = ₹{total} will be crafted and delivered at {time} tomorrow. We'll call {phone}.",
+  },
+
+  /* ══ HINDI TRANSLATIONS (NEW) ══ */
+  hi: {
+    nav_services:"सेवाएं", nav_sub:"सदस्यता", nav_how:"कैसे काम करता है",
+    nav_plan:"मासिक योजना ₹10+",
+    del_within:"मुंबई में डिलीवरी",
+    del_free_above:"₹99 से ऊपर मुफ़्त",
+    del_charge:"₹15 डिलीवरी शुल्क (सदस्यता पर माफ़)",
+    del_time:"सुबह 6 से 9 — रोज़ाना",
+    hero_pill:"मुंबई के सबसे ताज़े फूल",
+    hero_h1a:"पवित्र", hero_h1b:"फूल,", hero_h1c:"ताज़े", hero_h1d:"हर सुबह",
+    hero_sub:"हाथ से चुने पूजा फूल, सुंदर गजरा और कस्टम सजावट — सूर्योदय से पहले आपके दरवाज़े तक। सिर्फ़ ₹15 प्रति बंडल। सदस्यता केवल ₹10/माह।",
+    hero_btn1:"🌺 फूल देखें", hero_btn2:"✨ मासिक योजना",
+    orb_from:"शुरुआत होती है", orb_bundle:"बंडल", orb_home:"होम डिलीवरी",
+    orb_rated:"टॉप रेटेड", orb_happy:"खुश",
+    st1:"खुश ग्राहक", st2:"फूलों की किस्में", st3n:"रोज़ाना", st3:"ताज़ी डिलीवरी",
+    st4:"ताज़गी की गारंटी", st5:"सबसे कम मासिक योजना",
+    svc_tag:"हमारी सेवाएं", svc_title:"अपना फूल चुनें",
+    svc_sub:"तुरंत ऑर्डर करने के लिए किसी भी कार्ड पर क्लिक करें। नीचे एक-बार और सदस्यता मूल्य टॉगल करें।",
+    pt_one:"🛒 एक-बार", pt_sub:"📅 मासिक", pt_save:"33% बचत",
+    c1_name:"पूजा फूल", c1_desc:"पवित्र चमेली, गेंदा और गुलाब की पंखुड़ियां — आपकी दैनिक पूजा और दिव्य अर्पण के लिए।", c1_ms:"दैनिक पूजा के लिए पवित्र मिश्रण",
+    c2_name:"गजरा फूल", c2_desc:"गजरा बनाने के लिए ताज़े सुगंधित फूल — बालों की सजावट और शादी की ज़रूरतों के लिए।", c2_ms:"आपके परफेक्ट गजरे के लिए ताज़े फूल",
+    c3_name:"गजरा", c3_desc:"खूबसूरती से पिरोई गई चमेली की मालाएं — पहनने के लिए तैयार, हर सुबह ताज़ी बनाई जाती हैं।", c3_ms:"रोज़ ताज़ा तैयार गजरा",
+    c4_name:"कस्टमाइज़ फूल", c4_desc:"अपने पसंदीदा फूल चुनें — गुलाब, चमेली, गेंदा और भी। हम आपके लिए विशेष व्यवस्था बनाते हैं।", c4_ms:"अपने पसंदीदा फूल चुनें",
+    ribbon_ready:"तैयार", ribbon_pop:"★ लोकप्रिय",
+    per_bundle:"प्रति बंडल", per_string:"प्रति माला", per_arr:"प्रति व्यवस्था",
+    order_now:"अभी ऑर्डर करें →", customize_btn:"कस्टमाइज़ करें →",
+    dn1:"डिलीवरी शुल्क: ₹15", dn2:"प्रति ऑर्डर (फ्लैट)", dn3:"मुफ़्त डिलीवरी",
+    dn4:"₹99 से ऊपर के ऑर्डर पर", dn5:"कोई डिलीवरी शुल्क नहीं", dn6:"मासिक सदस्यता पर",
+    sub_tag:"मासिक सदस्यता",
+    sub_title:"रोज़ाना ताज़े फूल,\nकीमत जो आपको पसंद आएगी",
+    sub_sub:"एक बार सदस्यता लें और फूलों की चिंता भूल जाएं। हम हर सुबह — बारिश हो या धूप — बिना डिलीवरी शुल्क के आपके दरवाज़े तक लाते हैं।",
+    sf1h:"दैनिक सुबह डिलीवरी", sf1b:"हर दिन सुबह 6-9 बजे के बीच आपके दरवाज़े पर, मुफ़्त डिलीवरी",
+    sf2h:"भारी बचत", sf2b:"एक-बार कीमत से 33% बचत। सदस्यता पर डिलीवरी शुल्क नहीं",
+    sf3h:"कभी भी रोकें", sf3b:"यात्रा पर? बिना किसी जुर्माने के रोकें या पुनः शेड्यूल करें",
+    sf4h:"प्राथमिकता सेवा", sf4b:"सदस्यों को पहले डिलीवरी और सबसे ताज़े सुबह के फूल",
+    sub_badge:"सर्वोत्तम मूल्य",
+    sp1:"रोज़ाना ताज़े फूल (आपकी पसंद)", sp2:"मुफ़्त डिलीवरी — कोई अतिरिक्त शुल्क नहीं",
+    sp3:"कभी भी रोकें / पुनः शेड्यूल करें", sp4:"प्राथमिकता सुबह डिलीवरी",
+    sp5:"मुफ़्त त्योहार विशेष बंडल",
+    sub_cta:"अभी सदस्यता लें 🌸",
+    how_tag:"कैसे काम करता है", how_title:"3 आसान चरणों में आपके दरवाज़े तक",
+    how_sub:"ताज़े, सुगंधित और झंझट-मुक्त। क्लिक से दरवाज़े तक कुछ ही मिनटों में।",
+    hs1t:"चुनें और क्लिक करें", hs1d:"हमारे चार फूल विकल्प देखें और तुरंत ऑर्डर पॉपअप खोलने के लिए किसी भी कार्ड पर क्लिक करें।",
+    hs2t:"विवरण भरें", hs2d:"पॉपअप में नाम, पता, डिलीवरी समय और एक-बार या सदस्यता योजना चुनें।",
+    hs3t:"हम डिलीवर करते हैं", hs3d:"हम भोर में फूल तोड़कर आपके घर ताज़े पहुंचाते हैं — सुगंध और जीवन से भरपूर।",
+    hs4t:"रोज़ाना आनंद लें", hs4d:"हर सुबह दिव्य ताज़गी से शुरू करें। कभी कमी न हो इसलिए सदस्यता लें।",
+    foot1:"ताज़े फूल होम डिलीवरी · मुंबई",
+    foot2:"रोज़ाना ताज़गी और सुगंध पहुंचाते हैं",
+    foot3:"© 2025 पुष्पा फ्लावर्स। प्यार और ताज़ी पंखुड़ियों से बना 🌿",
+    mpb_unit:"प्रति बंडल कीमत", mpb_str:"प्रति माला कीमत", mpb_arr:"प्रति व्यवस्था आधार कीमत",
+    m_del:"₹15 डिलीवरी शुल्क लागू · सदस्यता पर मुफ़्त",
+    choose_plan:"योजना चुनें", your_name:"आपका नाम", phone:"फ़ोन",
+    address:"डिलीवरी पता", qty:"मात्रा",
+    bundle_s:"बंडल", string_s:"माला", arr_s:"व्यवस्था",
+    del_time_l:"डिलीवरी समय", note_opt:"नोट (वैकल्पिक)",
+    confirm_order:"🌸 ऑर्डर की पुष्टि करें", confirm_custom:"🌺 कस्टम ऑर्डर की पुष्टि करें",
+    pt_one_s:"एक-बार", pt_sub_s:"मासिक", per_mo:"प्रति माह",
+    sel_flowers:"फूल चुनें (एक या अधिक)",
+    f_rose:"गुलाब", f_rose_s:"प्यार और सौंदर्य",
+    f_jas:"चमेली", f_jas_s:"मीठी सुगंध",
+    f_mar:"गेंदा", f_mar_s:"शुभ",
+    f_lot:"कमल", f_lot_s:"दिव्य और शुद्ध",
+    f_chr:"गुलदाउदी", f_chr_s:"सुंदर फूल",
+    f_tub:"रजनीगंधा", f_tub_s:"समृद्ध और विदेशी",
+    f_sun:"सूरजमुखी", f_sun_s:"उज्ज्वल और खुशनुमा",
+    f_hib:"गुड़हल", f_hib_s:"बोल्ड और उष्णकटिबंधीय",
+    f_lav:"लैवेंडर", f_lav_s:"शांत सुगंध",
+    ferr:"कृपया कम से कम एक फूल का प्रकार चुनें।",
+    occasion_l:"अवसर / नोट (वैकल्पिक)",
+    success_title:"ऑर्डर की पुष्टि हो गई!", done:"हो गया",
+    sub_modal_title:"मासिक फूल सदस्यता",
+    sub_modal_sub:"शून्य डिलीवरी शुल्क · कभी भी रोकें · प्राथमिकता सुबह स्लॉट",
+    sel_opt:"-- फूल का प्रकार चुनें --",
+    flower_pref:"पसंदीदा फूल", start_date:"शुरू होने की तारीख",
+    sub_total_l:"मासिक सदस्यता", del_free:"✓ मुफ़्त डिलीवरी शामिल",
+    sub_confirm:"✨ अभी सदस्यता लें",
+    welcome_title:"परिवार में स्वागत है!", wonderful:"बहुत अच्छा!",
+    toast_name:"कृपया अपना नाम दर्ज करें",
+    toast_phone:"वैध 10-अंकीय फ़ोन नंबर दर्ज करें",
+    toast_addr:"कृपया डिलीवरी पता दर्ज करें",
+    toast_flower:"कृपया फूल का प्रकार चुनें",
+    toast_flowers:"कृपया कम से कम एक फूल चुनें",
+    sub_success:"आपकी ₹{price}/माह सदस्यता की पुष्टि हो गई। हर सुबह {time} पर ताज़े फूल। हम {name} को {phone} पर कॉल करेंगे। कभी डिलीवरी शुल्क नहीं!",
+    order_success:"धन्यवाद, {name}! आपके {qty} {unit}(s) {flower} ({plan}) ₹{sub} + ₹{del} डिलीवरी = ₹{total} कल {time} पर डिलीवर होगा। हम आपको {phone} पर कॉल करेंगे।",
+    order_sub_success:"धन्यवाद, {name}! {flower} के लिए आपकी सदस्यता कल से शुरू होती है। ₹{price}/माह मुफ़्त डिलीवरी के साथ {time} पर। हम आपको {phone} पर कॉल करेंगे।",
+    custom_success:"धन्यवाद, {name}! {flowers} के साथ आपकी कस्टम व्यवस्था ({plan}) ₹{sub} + ₹{del} डिलीवरी = ₹{total} कल {time} पर बनाकर पहुंचाई जाएगी। {phone} पर कॉल करेंगे।",
+  },
+
+  /* ══ MARATHI TRANSLATIONS ══ */
+  mr: {
+    nav_services:"सेवा", nav_sub:"सदस्यता", nav_how:"कसे काम करते",
+    nav_plan:"मासिक योजना ₹१०+",
+    del_within:"मुंबईमध्ये डिलिव्हरी",
+    del_free_above:"₹९९ वर मोफत",
+    del_charge:"₹१५ डिलिव्हरी शुल्क (सदस्यतेवर माफ)",
+    del_time:"सकाळी ६ ते ९ — दररोज",
+    hero_pill:"मुंबईतील सर्वात ताजी फुले",
+    hero_h1a:"पवित्र", hero_h1b:"फुले,", hero_h1c:"ताजी", hero_h1d:"दररोज पहाटे",
+    hero_sub:"हाताने निवडलेली पूजेची फुले, गजरा आणि कस्टम व्यवस्था — सूर्योदयापूर्वी तुमच्या दारापर्यंत. बंडलमागे फक्त ₹१५. मासिक सदस्यता फक्त ₹१०/महिना.",
+    hero_btn1:"🌺 फुले पाहा", hero_btn2:"✨ मासिक योजना",
+    orb_from:"सुरुवात होते", orb_bundle:"बंडल", orb_home:"घरपोच डिलिव्हरी",
+    orb_rated:"टॉप रेटेड", orb_happy:"आनंदी",
+    st1:"आनंदी ग्राहक", st2:"फुलांचे प्रकार", st3n:"दररोज", st3:"ताजी डिलिव्हरी",
+    st4:"ताजेपणाची हमी", st5:"सर्वात कमी मासिक योजना",
+    svc_tag:"आमच्या सेवा", svc_title:"तुमचे फूल निवडा",
+    svc_sub:"त्वरित ऑर्डर करण्यासाठी कोणत्याही कार्डवर क्लिक करा. खाली एक-वेळ आणि सदस्यता किंमत बदला.",
+    pt_one:"🛒 एक-वेळ", pt_sub:"📅 मासिक", pt_save:"३३% बचत",
+    c1_name:"पूजा फुले", c1_desc:"पवित्र जाई, झेंडू आणि गुलाबाच्या पाकळ्या — तुमच्या दैनंदिन पूजा आणि देवाच्या अर्पणासाठी.", c1_ms:"दैनंदिन पूजेसाठी पवित्र मिश्रण",
+    c2_name:"गजरा फुले", c2_desc:"गजरा बनवण्यासाठी ताजी सुगंधी फुले — केसात घालण्यासाठी आणि लग्नसमारंभासाठी.", c2_ms:"तुमच्या परिपूर्ण गजऱ्यासाठी ताजी फुले",
+    c3_name:"गजरा", c3_desc:"सुंदर गुंफलेल्या जाईच्या माळा — दररोज पहाटे ताज्या बनवलेल्या, घालण्यासाठी तयार.", c3_ms:"रोज ताजा तयार गजरा",
+    c4_name:"कस्टमाइज फुले", c4_desc:"तुमची आवडती फुले निवडा — गुलाब, जाई, झेंडू व अधिक. आम्ही तुमच्यासाठी विशेष व्यवस्था बनवतो.", c4_ms:"तुमची आवडती फुले निवडा",
+    ribbon_ready:"तयार", ribbon_pop:"★ लोकप्रिय",
+    per_bundle:"प्रति बंडल", per_string:"प्रति माळ", per_arr:"प्रति व्यवस्था",
+    order_now:"आता ऑर्डर करा →", customize_btn:"कस्टमाइज करा →",
+    dn1:"डिलिव्हरी शुल्क: ₹१५", dn2:"प्रति ऑर्डर (सपाट)", dn3:"मोफत डिलिव्हरी",
+    dn4:"₹९९ वरील ऑर्डरवर", dn5:"कोणतेही डिलिव्हरी शुल्क नाही", dn6:"मासिक सदस्यतेवर",
+    sub_tag:"मासिक सदस्यता",
+    sub_title:"दररोज ताजी फुले,\nकिमतीत खूश व्हाल",
+    sub_sub:"एकदा सदस्यता घ्या आणि फुलांची काळजी विसरा. दररोज सकाळी आमच्याकडून — पावसात किंवा उन्हात — डिलिव्हरी शुल्काशिवाय.",
+    sf1h:"दैनंदिन सकाळी डिलिव्हरी", sf1b:"दररोज सकाळी ६-९ च्या दरम्यान तुमच्या दारापर्यंत, मोफत डिलिव्हरी",
+    sf2h:"मोठी बचत", sf2b:"एक-वेळ किमतीपेक्षा ३३% बचत. सदस्यतेवर डिलिव्हरी शुल्क नाही",
+    sf3h:"कधीही थांबवा", sf3b:"प्रवासावर? कोणत्याही दंडाशिवाय थांबवा किंवा पुन्हा शेड्युल करा",
+    sf4h:"प्राधान्य सेवा", sf4b:"सदस्यांना प्रथम डिलिव्हरी आणि सर्वात ताज्या सकाळच्या फुलांचा आनंद",
+    sub_badge:"सर्वोत्तम मूल्य",
+    sp1:"दररोज ताजी फुले (तुमची निवड)", sp2:"मोफत डिलिव्हरी — अतिरिक्त शुल्क नाही",
+    sp3:"कधीही थांबवा / पुन्हा शेड्युल करा", sp4:"प्राधान्य सकाळ डिलिव्हरी",
+    sp5:"मोफत सण विशेष बंडल",
+    sub_cta:"आता सदस्यता घ्या 🌸",
+    how_tag:"कसे काम करते", how_title:"तुमच्या दारापर्यंत ३ सोप्या चरणांत",
+    how_sub:"ताजे, सुगंधी आणि झंझटमुक्त. क्लिकपासून दारापर्यंत काही मिनिटांत.",
+    hs1t:"निवडा आणि क्लिक करा", hs1d:"आमचे चार फूल पर्याय पहा आणि तात्काळ ऑर्डर पॉपअप उघडण्यासाठी कोणत्याही कार्डवर क्लिक करा.",
+    hs2t:"तपशील भरा", hs2d:"पॉपअपमध्ये नाव, पत्ता, डिलिव्हरी वेळ आणि एक-वेळ किंवा सदस्यता योजना निवडा.",
+    hs3t:"आम्ही डिलिव्हर करतो", hs3d:"आम्ही पहाटे फुले तोडून तुमच्या घरी ताजी पोहोचवतो — सुगंध आणि जीवनाने परिपूर्ण.",
+    hs4t:"दररोज आनंद घ्या", hs4d:"दर सकाळी दिव्य ताजेपणाने सुरुवात करा. पुन्हा कधीही कमी पडणार नाही यासाठी सदस्यता घ्या.",
+    foot1:"ताजी फुले घरपोच · मुंबई",
+    foot2:"दररोज ताजेपणा आणि सुगंध पोहोचवतो",
+    foot3:"© २०२५ पुष्पा फ्लॉवर्स. प्रेम आणि ताज्या पाकळ्यांनी बनवले 🌿",
+    mpb_unit:"प्रति बंडल किंमत", mpb_str:"प्रति माळ किंमत", mpb_arr:"प्रति व्यवस्था आधार किंमत",
+    m_del:"₹१५ डिलिव्हरी शुल्क · सदस्यतेवर मोफत",
+    choose_plan:"योजना निवडा", your_name:"तुमचे नाव", phone:"फोन",
+    address:"डिलिव्हरी पत्ता", qty:"प्रमाण",
+    bundle_s:"बंडल", string_s:"माळ", arr_s:"व्यवस्था",
+    del_time_l:"डिलिव्हरी वेळ", note_opt:"टीप (पर्यायी)",
+    confirm_order:"🌸 ऑर्डर निश्चित करा", confirm_custom:"🌺 कस्टम ऑर्डर निश्चित करा",
+    pt_one_s:"एक-वेळ", pt_sub_s:"मासिक", per_mo:"प्रति महिना",
+    sel_flowers:"फुले निवडा (एक किंवा अधिक)",
+    f_rose:"गुलाब", f_rose_s:"प्रेम आणि सौंदर्य",
+    f_jas:"जाई", f_jas_s:"मधुर सुगंध",
+    f_mar:"झेंडू", f_mar_s:"शुभ",
+    f_lot:"कमळ", f_lot_s:"दिव्य आणि शुद्ध",
+    f_chr:"गुलदाउदी", f_chr_s:"सुंदर फूल",
+    f_tub:"राजनीगंधा", f_tub_s:"समृद्ध आणि विदेशी",
+    f_sun:"सूर्यफूल", f_sun_s:"उज्ज्वल आणि आनंदी",
+    f_hib:"जास्वंद", f_hib_s:"ठळक आणि उष्णकटिबंधीय",
+    f_lav:"लॅव्हेंडर", f_lav_s:"शांत सुगंध",
+    ferr:"कृपया किमान एक फुलाचा प्रकार निवडा.",
+    occasion_l:"प्रसंग / टीप (पर्यायी)",
+    success_title:"ऑर्डर निश्चित!", done:"झाले",
+    sub_modal_title:"मासिक फूल सदस्यता",
+    sub_modal_sub:"शून्य डिलिव्हरी शुल्क · कधीही थांबवा · प्राधान्य सकाळ",
+    sel_opt:"-- फुलाचा प्रकार निवडा --",
+    flower_pref:"आवडती फुले", start_date:"सुरुवात तारीख",
+    sub_total_l:"मासिक सदस्यता", del_free:"✓ मोफत डिलिव्हरी समाविष्ट",
+    sub_confirm:"✨ आता सदस्यता घ्या",
+    welcome_title:"कुटुंबात स्वागत!", wonderful:"अप्रतिम!",
+    toast_name:"कृपया तुमचे नाव टाका",
+    toast_phone:"वैध १०-अंकी फोन नंबर टाका",
+    toast_addr:"कृपया डिलिव्हरी पत्ता टाका",
+    toast_flower:"कृपया फुलाचा प्रकार निवडा",
+    toast_flowers:"कृपया किमान एक फूल निवडा",
+    sub_success:"तुमची ₹{price}/महिना सदस्यता निश्चित झाली. दररोज {time} ला ताजी फुले. आम्ही {name} ला {phone} वर पहिली डिलिव्हरी निश्चित करण्यासाठी कॉल करू. डिलिव्हरी शुल्क कधीच नाही!",
+    order_success:"धन्यवाद, {name}! तुमचे {qty} {unit} {flower} ({plan}) ₹{sub} + ₹{del} डिलिव्हरी = ₹{total} उद्या {time} ला डिलिव्हर होईल. आम्ही {phone} वर कॉल करू.",
+    order_sub_success:"धन्यवाद, {name}! तुमची {flower} सदस्यता उद्यापासून सुरू होते. ₹{price}/महिना मोफत डिलिव्हरीसह {time} ला. आम्ही {phone} वर कॉल करू.",
+    custom_success:"धन्यवाद, {name}! तुमची {flowers} सह कस्टम व्यवस्था ({plan}) ₹{sub} + ₹{del} डिलिव्हरी = ₹{total} उद्या {time} ला बनवून पोहोचवली जाईल. {phone} वर कॉल करू.",
+  }
+};
+
+let lang = 'en';
+function t(k){ return (T[lang]||T.en)[k] || T.en[k] || k; }
+
+function setLang(l) {
+  lang = l;
+  // Update body class for font targeting
+  document.body.classList.remove('lang-en','lang-hi','lang-mr');
+  document.body.classList.add('lang-'+l);
+  // Update active button
+  document.getElementById('btnEN').classList.toggle('active', l==='en');
+  document.getElementById('btnHI').classList.toggle('active', l==='hi');
+  document.getElementById('btnMR').classList.toggle('active', l==='mr');
+  // Update all translated elements
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    const val = t(key);
+    if(el.tagName === 'INPUT' && el.type !== 'submit') return;
+    if(el.tagName === 'TEXTAREA') return;
+    if(el.tagName === 'OPTION') { el.textContent = val; return; }
+    // preserve child elements — only update text nodes
+    if(el.children.length === 0) {
+      el.textContent = val;
+    } else {
+      for(const node of el.childNodes) {
+        if(node.nodeType === 3 && node.textContent.trim()) {
+          node.textContent = val + ' '; break;
+        }
+      }
+    }
+  });
+  updateAllTotals();
+}
+
+/* ═══════════════════════════════════════════
+   PETAL CANVAS
+═══════════════════════════════════════════ */
+(function(){
+  const cv = document.getElementById('petalCanvas');
+  const cx = cv.getContext('2d');
+  let W, H, ps = [];
+  const SH = ['🌸','🌺','🌼','🍃','✿','🌹','🌷','💐'];
+  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  function P(){
+    this.x = Math.random()*W; this.y = -30;
+    this.sz = 10 + Math.random()*13;
+    this.sp = 0.4 + Math.random()*.8;
+    this.dr = (Math.random()-.5)*.7;
+    this.rot = Math.random()*360; this.rs = (Math.random()-.5)*1.4;
+    this.al = .2 + Math.random()*.22;
+    this.sh = SH[Math.floor(Math.random()*SH.length)];
+  }
+  for(let i=0;i<22;i++){ const p=new P(); p.y=Math.random()*H; ps.push(p); }
+  (function frame(){
+    cx.clearRect(0,0,W,H);
+    ps.forEach(p=>{
+      cx.save(); cx.globalAlpha=p.al; cx.translate(p.x,p.y); cx.rotate(p.rot*Math.PI/180);
+      cx.font=p.sz+'px serif'; cx.fillText(p.sh,-p.sz/2,p.sz/2); cx.restore();
+      p.y+=p.sp; p.x+=p.dr; p.rot+=p.rs;
+      if(p.y>H+40) Object.assign(p,new P());
+    });
+    requestAnimationFrame(frame);
+  })();
+})();
+
+/* ═══════════════════════════════════════════
+   COUNTER ANIMATION (stats)
+═══════════════════════════════════════════ */
+function animateCounter(id, target, suffix=''){
+  const el = document.getElementById(id);
+  if(!el) return;
+  let start = 0;
+  const dur = 1600;
+  const step = ts => {
+    if(!start) start = ts;
+    const progress = Math.min((ts-start)/dur, 1);
+    const eased = 1 - Math.pow(1-progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if(progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+let countersStarted = false;
+function tryStartCounters(){
+  if(countersStarted) return;
+  const statsEl = document.querySelector('.stats');
+  if(!statsEl) return;
+  const rect = statsEl.getBoundingClientRect();
+  if(rect.top < window.innerHeight){
+    countersStarted = true;
+    animateCounter('cnt-customers', 500, '+');
+    animateCounter('cnt-varieties', 4);
+  }
+}
+window.addEventListener('scroll', tryStartCounters);
+tryStartCounters();
+
+/* ═══════════════════════════════════════════
+   NAV SCROLL
+═══════════════════════════════════════════ */
+window.addEventListener('scroll', ()=> document.getElementById('mainNav').classList.toggle('scrolled', scrollY>40));
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+const IO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('vis'); IO.unobserve(e.target); } }), {threshold:.1});
+document.querySelectorAll('.sr,.sr-l,.sr-r').forEach(el=>IO.observe(el));
+
+/* ═══════════════════════════════════════════
+   PRICING DATA
+═══════════════════════════════════════════ */
+const prices = {
+  pooja:          { one:15, sub:10 },
+  gajara_flowers: { one:20, sub:15 },
+  gajara:         { one:25, sub:19 },
+  custom:         { one:30, sub:25 },
+};
+const DEL = 15;
+const FREE_DEL_ABOVE = 99;
+
+const planState = { pooja:'one', gajara_flowers:'one', gajara:'one', custom:'one' };
+const qtyState  = { pooja:1, gf:1, ga:1, cu:1 };
+
+/* Price mode toggle (card display) */
+let priceMode = 'one';
+function setPriceMode(m){
+  priceMode = m;
+  document.getElementById('ptOne').classList.toggle('active', m==='one');
+  document.getElementById('ptSub').classList.toggle('active', m==='sub');
+  const pd = [
+    ['pooja', prices.pooja],
+    ['gajara_flowers', prices.gajara_flowers],
+    ['gajara', prices.gajara],
+    ['custom', prices.custom],
+  ];
+  pd.forEach(([k,v])=>{
+    const el = document.getElementById('p-'+k);
+    const els = document.getElementById('ps-'+k);
+    if(el) el.textContent = m==='one' ? '₹'+v.one : '₹'+v.sub;
+    if(els) els.textContent = m==='one' ? 'Monthly: ₹'+v.sub : '1-time: ₹'+v.one;
+  });
+}
+
+/* ═══════════════════════════════════════════
+   MODAL OPEN/CLOSE
+═══════════════════════════════════════════ */
+function openModal(id){ openOverlay(id); }
+function openOverlay(id){
+  document.getElementById('ov-'+id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(id==='sub'){
+    const d=new Date(); d.setDate(d.getDate()+1);
+    const el = document.getElementById('sb-d');
+    if(el) el.valueAsDate = d;
+  }
+}
+function closeOverlay(id){
+  document.getElementById('ov-'+id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.overlay').forEach(ov=>{
+  ov.addEventListener('click', e=>{ if(e.target===ov) closeOverlay(ov.id.replace('ov-','')); });
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.querySelectorAll('.overlay.open').forEach(ov=>closeOverlay(ov.id.replace('ov-',''))); });
+
+/* ═══════════════════════════════════════════
+   PLAN PICKER
+═══════════════════════════════════════════ */
+function pickPlan(key, plan, el){
+  planState[key] = plan;
+  document.querySelectorAll('#plan-'+key+' .plan-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  updateTotal(key);
+  const pObj = prices[key];
+  if(!pObj) return;
+  const pEl = document.getElementById('pbar-'+key);
+  if(pEl) pEl.textContent = '₹'+(plan==='one'?pObj.one:pObj.sub);
+  const delEl = document.getElementById('pbar-sub-'+key);
+  if(delEl){
+    /* FIX: was duplicated — now correctly shows distinct messages */
+    if(plan==='sub') delEl.textContent = 'Subscribe: ₹'+pObj.sub+'/mo · Free delivery';
+    else delEl.textContent = '1-time: ₹'+pObj.one+' · ₹15 delivery';
+  }
+}
+
+/* ═══════════════════════════════════════════
+   QTY
+═══════════════════════════════════════════ */
+function chgQ(k, d){
+  qtyState[k] = Math.max(1, Math.min(20, (qtyState[k]||1)+d));
+  document.getElementById('q-'+k).textContent = qtyState[k];
+  const modalKey = k==='gf'?'gajara_flowers': k==='ga'?'gajara': k==='cu'?'custom': k;
+  updateTotal(modalKey);
+}
+
+function qtyKey(mk){ return mk==='gajara_flowers'?'gf': mk==='gajara'?'ga': mk==='custom'?'cu': mk; }
+
+function updateTotal(mk){
+  const qk = qtyKey(mk);
+  const qty = qtyState[qk]||1;
+  const plan = planState[mk]||'one';
+  const pObj = prices[mk]; if(!pObj) return;
+  const unitP = plan==='one' ? pObj.one : pObj.sub;
+  const sub = unitP * qty;
+  const del = (plan==='sub' || sub>FREE_DEL_ABOVE) ? 0 : DEL;
+  const total = sub + del;
+
+  const unit = mk==='gajara'?'string': mk==='custom'?'arr':'bundle';
+  const unitT = t('per_'+unit); // translated
+
+  const otsEl = document.getElementById('ots-'+qk);
+  const otdEl = document.getElementById('otd-'+qk);
+  const otpEl = document.getElementById('otp-'+qk);
+  if(otsEl) otsEl.textContent = qty+' × ₹'+unitP;
+  if(otdEl){
+    if(del===0) otdEl.textContent = t('del_free');
+    else otdEl.textContent = '+ ₹'+del+' delivery';
+  }
+  if(otpEl) otpEl.textContent = '₹'+total;
+}
+
+function updateAllTotals(){
+  ['pooja','gajara_flowers','gajara','custom'].forEach(k=>updateTotal(k));
+}
+
+/* ═══════════════════════════════════════════
+   CHIP SELECTORS
+═══════════════════════════════════════════ */
+function pickChip(containerId, el){
+  document.querySelectorAll('#'+containerId+' .chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function getTime(containerId){
+  const sel = document.querySelector('#'+containerId+' .chip.sel');
+  return sel ? sel.textContent : '7–8 AM';
+}
+
+/* ═══════════════════════════════════════════
+   FLOWER PICKER (CUSTOM)
+═══════════════════════════════════════════ */
+let selFlowers = [];
+function toggleF(el, name){
+  el.classList.toggle('sel');
+  selFlowers = Array.from(document.querySelectorAll('#flowerPicker .fchip.sel'))
+    .map(c=>c.querySelector('.fi-name').textContent);
+  document.getElementById('ferr').style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════
+   VALIDATE
+═══════════════════════════════════════════ */
+function val(id, msg){
+  const v=document.getElementById(id)?.value?.trim();
+  if(!v || v.length < (id.includes('-p')?10:1)){
+    toast(msg);
+    document.getElementById(id)?.focus();
+    return false;
+  }
+  return true;
+}
+
+/* ═══════════════════════════════════════════
+   SUBMIT ORDERS
+═══════════════════════════════════════════ */
+function submitOrder(mk){
+  const qk = qtyKey(mk);
+  if(!val(qk+'-n', t('toast_name'))) return;
+  if(!val(qk+'-p', t('toast_phone'))) return;
+  if(!val(qk+'-a', t('toast_addr'))) return;
+
+  const name  = document.getElementById(qk+'-n').value.trim();
+  const phone = document.getElementById(qk+'-p').value.trim();
+  const qty   = qtyState[qk]||1;
+  const plan  = planState[mk]||'one';
+  const pObj  = prices[mk];
+  const unitP = plan==='one'?pObj.one:pObj.sub;
+  const sub   = unitP*qty;
+  const del   = (plan==='sub'||sub>FREE_DEL_ABOVE)?0:DEL;
+  const total = sub+del;
+  const time  = getTime('tc-'+qk);
+  const flower  = t(mk==='gajara_flowers'?'c2_name':mk==='gajara'?'c3_name':mk==='custom'?'c4_name':'c1_name');
+  const unit    = mk==='gajara'?t('string_s'):mk==='custom'?t('arr_s'):t('bundle_s');
+  const planLbl = plan==='one'?t('pt_one_s'):t('pt_sub_s');
+
+  let msg;
+  if(plan==='sub'){
+    msg = t('order_sub_success')
+      .replace('{name}',name).replace('{flower}',flower).replace('{price}',unitP)
+      .replace('{time}',time).replace('{phone}',phone);
+  } else {
+    msg = t('order_success')
+      .replace('{name}',name).replace('{qty}',qty).replace('{unit}',unit)
+      .replace('{flower}',flower).replace('{plan}',planLbl)
+      .replace('{sub}',sub).replace('{del}',del).replace('{total}',total)
+      .replace('{time}',time).replace('{phone}',phone);
+  }
+
+  document.getElementById('smsg-'+mk).textContent = msg;
+  document.getElementById('mf-'+mk).classList.add('hidden');
+  document.getElementById('ms-'+mk).classList.add('show');
+}
+
+function submitCustom(){
+  if(!val('cu-n', t('toast_name'))) return;
+  if(!val('cu-p', t('toast_phone'))) return;
+  if(!val('cu-a', t('toast_addr'))) return;
+  if(selFlowers.length===0){ document.getElementById('ferr').style.display='block'; toast(t('toast_flowers')); return; }
+
+  const name  = document.getElementById('cu-n').value.trim();
+  const phone = document.getElementById('cu-p').value.trim();
+  const qty   = qtyState['cu']||1;
+  const plan  = planState['custom']||'one';
+  const pObj  = prices['custom'];
+  const unitP = plan==='one'?pObj.one:pObj.sub;
+  const sub   = unitP*qty;
+  const del   = (plan==='sub'||sub>FREE_DEL_ABOVE)?0:DEL;
+  const total = sub+del;
+  const time  = getTime('tc-cu');
+  const planLbl = plan==='one'?t('pt_one_s'):t('pt_sub_s');
+
+  const msg = t('custom_success')
+    .replace('{name}',name).replace('{flowers}',selFlowers.join(', '))
+    .replace('{plan}',planLbl).replace('{sub}',sub).replace('{del}',del)
+    .replace('{total}',total).replace('{time}',time).replace('{phone}',phone);
+
+  document.getElementById('smsg-custom').textContent = msg;
+  document.getElementById('mf-custom').classList.add('hidden');
+  document.getElementById('ms-custom').classList.add('show');
+}
+
+function submitSub(){
+  if(!val('sb-n', t('toast_name'))) return;
+  if(!val('sb-p', t('toast_phone'))) return;
+  if(!val('sb-a', t('toast_addr'))) return;
+  const fl = document.getElementById('sb-fl').value;
+  if(!fl){ toast(t('toast_flower')); document.getElementById('sb-fl').focus(); return; }
+
+  const name  = document.getElementById('sb-n').value.trim();
+  const phone = document.getElementById('sb-p').value.trim();
+  const time  = getTime('tc-sb');
+  const [flName, price] = fl.split('|');
+
+  document.getElementById('sub-total').textContent = '₹'+price+'/mo';
+
+  const msg = t('sub_success')
+    .replace('{price}',price).replace('{time}',time)
+    .replace('{name}',name).replace('{phone}',phone);
+  document.getElementById('smsg-sub').textContent = msg;
+  document.getElementById('mf-sub').classList.add('hidden');
+  document.getElementById('ms-sub').classList.add('show');
+}
+
+// Update sub-total on flower select
+document.getElementById('sb-fl').addEventListener('change', function(){
+  const v = this.value;
+  if(v){ const price = v.split('|')[1]; document.getElementById('sub-total').textContent = '₹'+price+'/mo'; }
+});
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+updateAllTotals();
+</script>
+</body>
+</html>
