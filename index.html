@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vector.ioST Flowers – Fresh Home Delivery</title>
+<title>Pushpa Flowers – Fresh Home Delivery</title>
 <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════
@@ -411,6 +411,136 @@ nav.scrolled { box-shadow: 0 2px 28px rgba(28,16,8,0.09); }
 .del-note b { font-weight: 800; }
 
 /* ══════════════════════════════════════
+   PACKAGES SECTION
+══════════════════════════════════════ */
+#packages {
+  background: linear-gradient(160deg, #fffbf5 0%, #fff6e8 60%, #ffefd0 100%);
+  position: relative;
+  overflow: hidden;
+}
+#packages::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 40% at 15% 50%, rgba(82,183,136,.06) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 85% 20%, rgba(245,166,35,.08) 0%, transparent 65%);
+}
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1060px;
+  margin: 48px auto 0;
+  position: relative; z-index: 1;
+}
+.pkg-card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 36px 28px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s;
+}
+.pkg-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--pkg-accent, var(--saffron));
+}
+.pkg-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 28px 70px rgba(28,16,8,.13);
+  border-color: var(--pkg-accent, var(--saffron));
+}
+.pkg-card.featured-pkg {
+  background: linear-gradient(160deg, #1e4d38, #133428);
+  border-color: var(--sage2);
+  transform: scale(1.04);
+}
+.pkg-card.featured-pkg:hover {
+  transform: scale(1.04) translateY(-10px);
+  box-shadow: 0 32px 80px rgba(0,0,0,.28);
+}
+.pkg-card.featured-pkg .pkg-name,
+.pkg-card.featured-pkg .pkg-tagline { color: var(--white); }
+.pkg-card.featured-pkg .pkg-tagline { opacity: .72; }
+.pkg-card.featured-pkg .pkg-divider { border-color: rgba(255,255,255,.12); }
+.pkg-card.featured-pkg .pkg-feature { color: rgba(255,255,255,.82); border-bottom-color: rgba(255,255,255,.07); }
+.pkg-card.featured-pkg .pkg-feature::before { color: var(--gold); }
+.pkg-badge {
+  position: absolute; top: 18px; right: 0;
+  background: var(--rose); color: #fff;
+  font-size: .62rem; font-weight: 800; letter-spacing: .8px; text-transform: uppercase;
+  padding: 4px 12px 4px 10px; border-radius: 4px 0 0 4px;
+}
+.pkg-badge.gold { background: var(--gold); color: var(--ink); }
+.pkg-icon-wrap {
+  width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 18px;
+  background: rgba(224,123,0,.1); display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .3s;
+}
+.pkg-card.featured-pkg .pkg-icon-wrap { background: rgba(255,255,255,.12); }
+.pkg-card:hover .pkg-icon-wrap { transform: scale(1.18) rotate(-8deg); background: rgba(224,123,0,.18); }
+.pkg-card.featured-pkg:hover .pkg-icon-wrap { background: rgba(255,255,255,.22); }
+.pkg-name {
+  font-family: var(--font-head);
+  font-size: 1.45rem; color: var(--ink);
+  margin-bottom: 4px;
+}
+.pkg-tagline { font-size: .82rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+.pkg-price-wrap { margin-bottom: 20px; }
+.pkg-price {
+  font-family: var(--font-head);
+  font-size: 2.8rem; color: var(--saffron); line-height: 1;
+  transition: color .25s;
+}
+.pkg-card.featured-pkg .pkg-price { color: var(--gold); }
+.pkg-price-unit { font-size: .8rem; color: var(--muted); font-weight: 600; margin-top: 3px; }
+.pkg-card.featured-pkg .pkg-price-unit { color: rgba(255,255,255,.5); }
+.pkg-price-sub {
+  display: inline-block; margin-top: 6px;
+  background: rgba(45,106,79,.1); color: var(--sage); font-size: .73rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 50px;
+}
+.pkg-card.featured-pkg .pkg-price-sub { background: rgba(255,209,102,.18); color: var(--gold); }
+.pkg-divider { border: none; border-top: 1.5px solid var(--border); margin: 0 0 18px; }
+.pkg-features { list-style: none; margin-bottom: 24px; text-align: left; }
+.pkg-feature {
+  font-size: .82rem; color: var(--muted); padding: 7px 0;
+  border-bottom: 1px solid rgba(224,123,0,.08);
+  display: flex; align-items: flex-start; gap: 8px;
+  line-height: 1.45;
+}
+.pkg-feature::before { content: '✓'; color: var(--saffron); font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+.pkg-feature:last-child { border-bottom: none; }
+.pkg-cta {
+  width: 100%; padding: 13px 24px; border-radius: 50px; border: none;
+  background: var(--saffron); color: var(--white);
+  font-size: .92rem; font-weight: 800;
+  transition: all .25s;
+  box-shadow: 0 6px 18px rgba(224,123,0,.28);
+}
+.pkg-cta:hover { background: var(--sage); box-shadow: 0 10px 28px rgba(45,106,79,.3); transform: translateY(-2px); }
+.pkg-card.featured-pkg .pkg-cta {
+  background: linear-gradient(135deg, var(--saffron), #c86c00);
+  box-shadow: 0 6px 22px rgba(224,123,0,.45);
+}
+.pkg-card.featured-pkg .pkg-cta:hover { opacity: .92; box-shadow: 0 12px 32px rgba(224,123,0,.55); }
+
+/* Package modal */
+.pkg-modal-head {
+  padding: 26px 24px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pkg-modal-icon { font-size: 2.6rem; margin-right: 14px; }
+.pkg-modal-info .mt { font-family: var(--font-head); font-size: 1.3rem; color: var(--ink); }
+.pkg-modal-info .ms { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+/* ══════════════════════════════════════
    SUBSCRIPTION SECTION
 ══════════════════════════════════════ */
 #subscription {
@@ -718,17 +848,73 @@ select.fi { cursor: pointer; }
 /* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
-@media(max-width:900px){
+/* ══ TABLET ══ */
+@media(max-width:960px){
   nav { padding: 13px 20px; }
   .nav-mid { display: none; }
-  .hero { grid-template-columns: 1fr; padding: 108px 22px 56px; text-align: center; gap: 40px; }
+  .hero { grid-template-columns: 1fr; padding: 108px 24px 60px; text-align: center; gap: 36px; }
   .hero-btns { justify-content: center; }
-  .h-orb { width: 270px; height: 270px; font-size: 5.5rem; }
+  .hero-sub { margin-left: auto; margin-right: auto; }
+  .h-orb { width: 300px; height: 300px; font-size: 6rem; }
   .hb3 { display: none; }
-  .section { padding: 62px 22px; }
-  .sub-grid { grid-template-columns: 1fr; gap: 38px; }
+  .section { padding: 64px 24px; }
+  .sub-grid { grid-template-columns: 1fr; gap: 40px; }
   .f-row { grid-template-columns: 1fr; }
   .how-step::after { display: none; }
+  .pkg-grid { grid-template-columns: 1fr; gap: 20px; max-width: 440px; }
+  .pkg-card.featured-pkg { transform: scale(1); }
+  .pkg-card.featured-pkg:hover { transform: translateY(-10px); }
+  .cards-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+
+/* ══ MOBILE ══ */
+@media(max-width:600px){
+  nav { padding: 11px 16px; }
+  .logo { font-size: 1.35rem; }
+  .lang-btn { padding: 5px 8px; font-size: .72rem; }
+  .nav-sub-btn { padding: 7px 14px; font-size: .78rem; }
+  .del-strip { padding: 9px 16px; gap: 14px; font-size: .75rem; justify-content: flex-start; flex-wrap: wrap; }
+  .hero { padding: 100px 16px 52px; gap: 28px; }
+  .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
+  .hero-sub { font-size: .93rem; }
+  .hero-btns { flex-direction: column; align-items: center; gap: 10px; }
+  .btn-prim, .btn-sec { width: 100%; max-width: 280px; justify-content: center; }
+  .h-orb { width: 240px; height: 240px; font-size: 4.8rem; }
+  .hb1 { bottom: 20px; right: -10px; padding: 8px 12px; }
+  .hb2 { top: 28px; left: -12px; padding: 8px 12px; }
+  .stats { flex-wrap: wrap; }
+  .stat-box { flex: 0 0 50%; min-width: 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .stat-box:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.12); }
+  .section { padding: 52px 16px; }
+  .s-title { font-size: clamp(1.5rem,5vw,2.1rem); }
+  .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+  .scard { padding: 24px 18px 20px; }
+  .sc-bottom { flex-wrap: wrap; gap: 12px; }
+  .sc-btn { width: 100%; justify-content: center; }
+  .pkg-grid { grid-template-columns: 1fr; gap: 16px; max-width: 100%; }
+  .pkg-card { padding: 28px 20px 22px; }
+  .pkg-card.featured-pkg { transform: scale(1); }
+  .pkg-price { font-size: 2.4rem; }
+  .sub-grid { grid-template-columns: 1fr; gap: 32px; }
+  .sub-card { padding: 28px 20px; }
+  .how-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .how-step { padding: 22px 14px; }
+  .how-icon { font-size: 1.9rem; }
+  .modal { border-radius: var(--r-lg) var(--r-lg) 0 0; max-height: 95vh; }
+  .overlay { align-items: flex-end; padding: 0; }
+  .flower-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .del-note { gap: 12px; font-size: .8rem; }
+  .price-toggle-wrap { margin: 20px 0 32px; }
+  .pt-btn { padding: 8px 18px; font-size: .82rem; }
+  footer { padding: 22px 16px; }
+}
+
+/* ══ VERY SMALL ══ */
+@media(max-width:380px){
+  .how-grid { grid-template-columns: 1fr; }
+  .stat-box { flex: 0 0 100%; border-right: none; }
+  .flower-grid { grid-template-columns: repeat(2,1fr); }
+  .h-orb { width: 200px; height: 200px; font-size: 4rem; }
 }
 </style>
 </head>
@@ -743,6 +929,7 @@ select.fi { cursor: pointer; }
   <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">Pushpa <span class="logo-spin">✿</span></div>
   <ul class="nav-mid">
     <li><a href="#services" data-t="nav_services">Services</a></li>
+    <li><a href="#packages">Packages</a></li>
     <li><a href="#subscription" data-t="nav_sub">Subscribe</a></li>
     <li><a href="#how" data-t="nav_how">How It Works</a></li>
   </ul>
@@ -905,6 +1092,86 @@ select.fi { cursor: pointer; }
 </section>
 
 <!-- ══════════════════
+     PACKAGES
+══════════════════════ -->
+<section class="section" id="packages">
+  <div class="tc sr">
+    <div class="s-tag">Our Packages</div>
+    <h2 class="s-title">Pick Your Perfect Package</h2>
+    <p class="s-sub">Choose a bundle that fits your needs. All packages include fresh hand-picked flowers delivered at your preferred time — with free delivery on Medium &amp; Large.</p>
+  </div>
+
+  <div class="pkg-grid">
+
+    <!-- SMALL PACKAGE -->
+    <div class="pkg-card sr" style="--pkg-accent:var(--sage2)" onclick="openOverlay('pkg-small')">
+      <div class="pkg-icon-wrap">🌿</div>
+      <div class="pkg-name">Small Package</div>
+      <div class="pkg-tagline">Perfect for a single puja or daily personal use</div>
+      <div class="pkg-price-wrap">
+        <div class="pkg-price" id="pkgp-small">₹49</div>
+        <div class="pkg-price-unit">one-time · per pack</div>
+        <div class="pkg-price-sub">Subscribe ₹35/mo · Save 29%</div>
+      </div>
+      <hr class="pkg-divider"/>
+      <ul class="pkg-features">
+        <li class="pkg-feature">1 variety of fresh flowers</li>
+        <li class="pkg-feature">1 small bundle (25–30 stems)</li>
+        <li class="pkg-feature">Ideal for home mandir or personal use</li>
+        <li class="pkg-feature">Next-morning delivery</li>
+        <li class="pkg-feature">₹15 delivery charge applies</li>
+      </ul>
+      <button class="pkg-cta" onclick="openOverlay('pkg-small');event.stopPropagation()">Order Small Pack →</button>
+    </div>
+
+    <!-- MEDIUM PACKAGE -->
+    <div class="pkg-card featured-pkg sr" style="--pkg-accent:var(--saffron)" onclick="openOverlay('pkg-medium')">
+      <div class="pkg-badge gold">★ Most Popular</div>
+      <div class="pkg-icon-wrap">🌸</div>
+      <div class="pkg-name">Medium Package</div>
+      <div class="pkg-tagline">Best value for daily household puja &amp; gajara</div>
+      <div class="pkg-price-wrap">
+        <div class="pkg-price" id="pkgp-medium">₹99</div>
+        <div class="pkg-price-unit">one-time · per pack</div>
+        <div class="pkg-price-sub">Subscribe ₹75/mo · Save 24%</div>
+      </div>
+      <hr class="pkg-divider"/>
+      <ul class="pkg-features">
+        <li class="pkg-feature">2 varieties of fresh flowers</li>
+        <li class="pkg-feature">2–3 bundles (60–80 stems)</li>
+        <li class="pkg-feature">Includes gajara or pooja mix</li>
+        <li class="pkg-feature">Priority morning slot (6–7 AM)</li>
+        <li class="pkg-feature">FREE delivery included</li>
+      </ul>
+      <button class="pkg-cta" onclick="openOverlay('pkg-medium');event.stopPropagation()">Order Medium Pack →</button>
+    </div>
+
+    <!-- LARGE PACKAGE -->
+    <div class="pkg-card sr" style="--pkg-accent:var(--rose)" onclick="openOverlay('pkg-large')">
+      <div class="pkg-badge">🎉 Festival Ready</div>
+      <div class="pkg-icon-wrap">💐</div>
+      <div class="pkg-name">Large Package</div>
+      <div class="pkg-tagline">For families, functions &amp; special occasions</div>
+      <div class="pkg-price-wrap">
+        <div class="pkg-price" id="pkgp-large">₹179</div>
+        <div class="pkg-price-unit">one-time · per pack</div>
+        <div class="pkg-price-sub">Subscribe ₹139/mo · Save 22%</div>
+      </div>
+      <hr class="pkg-divider"/>
+      <ul class="pkg-features">
+        <li class="pkg-feature">4+ varieties of fresh flowers</li>
+        <li class="pkg-feature">5–6 bundles (150+ stems)</li>
+        <li class="pkg-feature">Custom mix + gajara included</li>
+        <li class="pkg-feature">Earliest delivery slot (6 AM sharp)</li>
+        <li class="pkg-feature">FREE delivery + festive wrapping</li>
+      </ul>
+      <button class="pkg-cta" onclick="openOverlay('pkg-large');event.stopPropagation()">Order Large Pack →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════
      SUBSCRIPTION
 ══════════════════════ -->
 <section class="section" id="subscription">
@@ -971,6 +1238,179 @@ select.fi { cursor: pointer; }
 <!-- ══════════════════════════════════════
      MODALS
 ══════════════════════════════════════ -->
+
+<!-- ══════════════════════════════════════
+     PACKAGE MODALS
+══════════════════════════════════════ -->
+
+<!-- ── SMALL PACKAGE MODAL ── -->
+<div class="overlay" id="ov-pkg-small">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">🌿</span>
+      <div class="modal-title-wrap"><div class="mt">Small Package</div><div class="ms">Perfect for personal puja &amp; daily use</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('pkg-small')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-pkg-small">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span>Price per pack</span><span class="mpb-sub" id="pbar-sub-pkg-small">Subscribe: ₹35/mo · Save 29%</span></div>
+        <div class="mpb-price" id="pbar-pkg-small">₹49</div>
+      </div>
+      <div class="m-del-charge">🚚 ₹15 delivery charge applies · FREE on subscription</div>
+      <div class="fl" style="margin-bottom:6px">Choose Plan</div>
+      <div class="plan-row" id="plan-pkg-small">
+        <div class="plan-chip sel" onclick="pickPlan('pkg-small','one',this)">
+          <div class="pc-label">One-Time</div><div class="pc-price">₹49</div><div class="pc-note">per pack</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('pkg-small','sub',this)">
+          <div class="pc-label">Monthly</div><div class="pc-price">₹35</div><div class="pc-note">per month</div>
+        </div>
+      </div>
+      <div style="background:rgba(82,183,136,.07);border:1.5px solid rgba(82,183,136,.2);border-radius:var(--r-md);padding:12px 16px;margin-bottom:14px;font-size:.82rem;color:var(--sage)">
+        <strong>What's included:</strong> 1 variety of fresh flowers · 1 small bundle (25–30 stems) · Ideal for home mandir
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl">Your Name</label><input class="fi" id="pks-n" placeholder="e.g. Priya Sharma"/></div>
+        <div class="fg"><label class="fl">Phone</label><input class="fi" id="pks-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl">Delivery Address</label><input class="fi" id="pks-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="qty-row"><span class="ql">Quantity</span>
+        <div class="qty-ctrl"><button class="qb" onclick="chgPkgQ('small',-1)">−</button><span class="qv" id="q-pks">1</span><button class="qb" onclick="chgPkgQ('small',1)">+</button></div>
+        <span class="q-note">pack(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px">Delivery Time</div>
+      <div class="chips" id="tc-pks">
+        <div class="chip sel" onclick="pickChip('tc-pks',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-pks',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-pks',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl">Note (Optional)</label><textarea class="fi" id="pks-note" placeholder="Any preference..."></textarea></div>
+      <div class="o-total">
+        <div class="otl"><span id="ots-pks">1 pack × ₹49</span><span class="otl-del" id="otd-pks">+ ₹15 delivery</span></div>
+        <div class="ot-price" id="otp-pks">₹64</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitPkgOrder('small')">🌿 Confirm Small Package</button>
+    </div>
+    <div class="m-success" id="ms-pkg-small"><div class="s-anim">🎉</div><div class="s-title">Order Confirmed!</div><div class="s-msg" id="smsg-pkg-small"></div><button class="s-close" onclick="closeOverlay('pkg-small')">Done</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ── MEDIUM PACKAGE MODAL ── -->
+<div class="overlay" id="ov-pkg-medium">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">🌸</span>
+      <div class="modal-title-wrap"><div class="mt">Medium Package</div><div class="ms">Best value for daily household needs</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('pkg-medium')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-pkg-medium">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span>Price per pack</span><span class="mpb-sub" id="pbar-sub-pkg-medium">Subscribe: ₹75/mo · Save 24%</span></div>
+        <div class="mpb-price" id="pbar-pkg-medium">₹99</div>
+      </div>
+      <div class="m-del-charge" style="background:rgba(45,106,79,.07);color:var(--sage)">🚚 FREE delivery included on this package!</div>
+      <div class="fl" style="margin-bottom:6px">Choose Plan</div>
+      <div class="plan-row" id="plan-pkg-medium">
+        <div class="plan-chip sel" onclick="pickPlan('pkg-medium','one',this)">
+          <div class="pc-label">One-Time</div><div class="pc-price">₹99</div><div class="pc-note">per pack</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('pkg-medium','sub',this)">
+          <div class="pc-label">Monthly</div><div class="pc-price">₹75</div><div class="pc-note">per month</div>
+        </div>
+      </div>
+      <div style="background:rgba(224,123,0,.06);border:1.5px solid rgba(224,123,0,.18);border-radius:var(--r-md);padding:12px 16px;margin-bottom:14px;font-size:.82rem;color:var(--saffron)">
+        <strong>What's included:</strong> 2 varieties · 2–3 bundles (60–80 stems) · Gajara or pooja mix · Priority 6–7 AM slot
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl">Your Name</label><input class="fi" id="pkm-n" placeholder="e.g. Sunita Patil"/></div>
+        <div class="fg"><label class="fl">Phone</label><input class="fi" id="pkm-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl">Delivery Address</label><input class="fi" id="pkm-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="qty-row"><span class="ql">Quantity</span>
+        <div class="qty-ctrl"><button class="qb" onclick="chgPkgQ('medium',-1)">−</button><span class="qv" id="q-pkm">1</span><button class="qb" onclick="chgPkgQ('medium',1)">+</button></div>
+        <span class="q-note">pack(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px">Delivery Time</div>
+      <div class="chips" id="tc-pkm">
+        <div class="chip sel" onclick="pickChip('tc-pkm',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-pkm',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-pkm',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl">Note (Optional)</label><textarea class="fi" id="pkm-note" placeholder="Any preference..."></textarea></div>
+      <div class="o-total">
+        <div class="otl"><span id="ots-pkm">1 pack × ₹99</span><span class="otl-del" id="otd-pkm" style="color:var(--sage)">✓ FREE delivery</span></div>
+        <div class="ot-price" id="otp-pkm">₹99</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitPkgOrder('medium')">🌸 Confirm Medium Package</button>
+    </div>
+    <div class="m-success" id="ms-pkg-medium"><div class="s-anim">🎉</div><div class="s-title">Order Confirmed!</div><div class="s-msg" id="smsg-pkg-medium"></div><button class="s-close" onclick="closeOverlay('pkg-medium')">Done</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ── LARGE PACKAGE MODAL ── -->
+<div class="overlay" id="ov-pkg-large">
+<div class="modal">
+  <div class="modal-top">
+    <div class="modal-icon-title"><span class="modal-big-icon">💐</span>
+      <div class="modal-title-wrap"><div class="mt">Large Package</div><div class="ms">For families, functions &amp; special occasions</div></div>
+    </div>
+    <button class="m-close" onclick="closeOverlay('pkg-large')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="m-form" id="mf-pkg-large">
+      <div class="m-price-bar">
+        <div class="mpb-left"><span>Price per pack</span><span class="mpb-sub" id="pbar-sub-pkg-large">Subscribe: ₹139/mo · Save 22%</span></div>
+        <div class="mpb-price" id="pbar-pkg-large">₹179</div>
+      </div>
+      <div class="m-del-charge" style="background:rgba(192,65,90,.07);color:var(--rose)">🎉 FREE delivery + festive wrapping on this package!</div>
+      <div class="fl" style="margin-bottom:6px">Choose Plan</div>
+      <div class="plan-row" id="plan-pkg-large">
+        <div class="plan-chip sel" onclick="pickPlan('pkg-large','one',this)">
+          <div class="pc-label">One-Time</div><div class="pc-price">₹179</div><div class="pc-note">per pack</div>
+        </div>
+        <div class="plan-chip" onclick="pickPlan('pkg-large','sub',this)">
+          <div class="pc-label">Monthly</div><div class="pc-price">₹139</div><div class="pc-note">per month</div>
+        </div>
+      </div>
+      <div style="background:rgba(192,65,90,.06);border:1.5px solid rgba(192,65,90,.18);border-radius:var(--r-md);padding:12px 16px;margin-bottom:14px;font-size:.82rem;color:var(--rose)">
+        <strong>What's included:</strong> 4+ varieties · 5–6 bundles (150+ stems) · Custom mix + gajara · 6 AM sharp delivery · Festive wrapping
+      </div>
+      <div class="f-row">
+        <div class="fg"><label class="fl">Your Name</label><input class="fi" id="pkl-n" placeholder="e.g. Kavita Mehta"/></div>
+        <div class="fg"><label class="fl">Phone</label><input class="fi" id="pkl-p" placeholder="10-digit" maxlength="10" type="tel"/></div>
+      </div>
+      <div class="fg"><label class="fl">Delivery Address</label><input class="fi" id="pkl-a" placeholder="House no., Street, Area, City"/></div>
+      <div class="qty-row"><span class="ql">Quantity</span>
+        <div class="qty-ctrl"><button class="qb" onclick="chgPkgQ('large',-1)">−</button><span class="qv" id="q-pkl">1</span><button class="qb" onclick="chgPkgQ('large',1)">+</button></div>
+        <span class="q-note">pack(s)</span>
+      </div>
+      <div class="fl" style="margin-bottom:6px">Delivery Time</div>
+      <div class="chips" id="tc-pkl">
+        <div class="chip sel" onclick="pickChip('tc-pkl',this)">6–7 AM</div>
+        <div class="chip" onclick="pickChip('tc-pkl',this)">7–8 AM</div>
+        <div class="chip" onclick="pickChip('tc-pkl',this)">8–9 AM</div>
+      </div>
+      <div class="fg"><label class="fl">Occasion / Note (Optional)</label><textarea class="fi" id="pkl-note" placeholder="e.g. Wedding, Ganesh puja, festival..."></textarea></div>
+      <div class="o-total">
+        <div class="otl"><span id="ots-pkl">1 pack × ₹179</span><span class="otl-del" id="otd-pkl" style="color:var(--sage)">✓ FREE delivery + wrapping</span></div>
+        <div class="ot-price" id="otp-pkl">₹179</div>
+      </div>
+      <button class="o-sub-btn" onclick="submitPkgOrder('large')" style="background:linear-gradient(135deg,var(--rose),#9a2040)">💐 Confirm Large Package</button>
+    </div>
+    <div class="m-success" id="ms-pkg-large"><div class="s-anim">🎉</div><div class="s-title">Order Confirmed!</div><div class="s-msg" id="smsg-pkg-large"></div><button class="s-close" onclick="closeOverlay('pkg-large')">Done</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════
+     ORIGINAL MODALS
+══════════════════════ -->
 
 <!-- ── POOJA FLOWERS ── -->
 <div class="overlay" id="ov-pooja">
@@ -1705,6 +2145,14 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.querySel
    PLAN PICKER
 ═══════════════════════════════════════════ */
 function pickPlan(key, plan, el){
+  // Handle package plans
+  if(key.startsWith('pkg-')){
+    pkgPlanState[key] = plan;
+    document.querySelectorAll('#plan-'+key+' .plan-chip').forEach(c=>c.classList.remove('sel'));
+    el.classList.add('sel');
+    updatePkgTotal(key.replace('pkg-',''));
+    return;
+  }
   planState[key] = plan;
   document.querySelectorAll('#plan-'+key+' .plan-chip').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
@@ -1904,9 +2352,88 @@ function toast(msg){
 }
 
 /* ═══════════════════════════════════════════
-   INIT
+   PACKAGE PRICING & STATE
 ═══════════════════════════════════════════ */
-updateAllTotals();
+const pkgPrices = {
+  small:  { one: 49,  sub: 35  },
+  medium: { one: 99,  sub: 75  },
+  large:  { one: 179, sub: 139 },
+};
+const pkgQtyState = { small: 1, medium: 1, large: 1 };
+const pkgPlanState = { 'pkg-small': 'one', 'pkg-medium': 'one', 'pkg-large': 'one' };
+// Map pkg size to input key prefix
+const pkgPrefix = { small: 'pks', medium: 'pkm', large: 'pkl' };
+
+function chgPkgQ(size, d) {
+  pkgQtyState[size] = Math.max(1, Math.min(20, (pkgQtyState[size] || 1) + d));
+  const pre = pkgPrefix[size];
+  document.getElementById('q-' + pre).textContent = pkgQtyState[size];
+  updatePkgTotal(size);
+}
+
+function updatePkgTotal(size) {
+  const pre = pkgPrefix[size];
+  const qty = pkgQtyState[size] || 1;
+  const plan = pkgPlanState['pkg-' + size] || 'one';
+  const pObj = pkgPrices[size]; if (!pObj) return;
+  const unitP = plan === 'one' ? pObj.one : pObj.sub;
+  const sub = unitP * qty;
+  // Medium & Large have free delivery; Small has ₹15 if not subscription
+  const freeShipping = size !== 'small' || plan === 'sub';
+  const del = freeShipping ? 0 : DEL;
+  const total = sub + del;
+
+  const otsEl = document.getElementById('ots-' + pre);
+  const otdEl = document.getElementById('otd-' + pre);
+  const otpEl = document.getElementById('otp-' + pre);
+  if (otsEl) otsEl.textContent = qty + ' × ₹' + unitP;
+  if (otdEl) {
+    if (del === 0) { otdEl.textContent = '✓ FREE delivery'; otdEl.style.color = 'var(--sage)'; }
+    else { otdEl.textContent = '+ ₹' + del + ' delivery'; otdEl.style.color = ''; }
+  }
+  if (otpEl) otpEl.textContent = '₹' + total;
+
+  // Update price bar
+  const pbarEl = document.getElementById('pbar-pkg-' + size);
+  const pbarSubEl = document.getElementById('pbar-sub-pkg-' + size);
+  if (pbarEl) pbarEl.textContent = '₹' + unitP;
+  if (pbarSubEl) {
+    if (plan === 'one') pbarSubEl.textContent = 'Subscribe: ₹' + pObj.sub + '/mo';
+    else pbarSubEl.textContent = '1-time: ₹' + pObj.one;
+  }
+}
+
+// Init package totals
+['small','medium','large'].forEach(s => updatePkgTotal(s));
+
+function submitPkgOrder(size) {
+  const pre = pkgPrefix[size];
+  if (!val(pre + '-n', t('toast_name'))) return;
+  if (!val(pre + '-p', t('toast_phone'))) return;
+  if (!val(pre + '-a', t('toast_addr'))) return;
+
+  const name  = document.getElementById(pre + '-n').value.trim();
+  const phone = document.getElementById(pre + '-p').value.trim();
+  const qty   = pkgQtyState[size] || 1;
+  const plan  = pkgPlanState['pkg-' + size] || 'one';
+  const pObj  = pkgPrices[size];
+  const unitP = plan === 'one' ? pObj.one : pObj.sub;
+  const sub   = unitP * qty;
+  const freeShipping = size !== 'small' || plan === 'sub';
+  const del   = freeShipping ? 0 : DEL;
+  const total = sub + del;
+  const time  = getTime('tc-' + pre);
+  const pkgName = size.charAt(0).toUpperCase() + size.slice(1) + ' Package';
+  const planLbl = plan === 'one' ? 'One-Time' : 'Monthly';
+  const delStr  = del === 0 ? 'FREE delivery' : '₹' + del + ' delivery';
+
+  const msg = `Thank you, ${name}! Your ${qty} × ${pkgName} (${planLbl}) worth ₹${sub} + ${delStr} = ₹${total} will be delivered at ${time} tomorrow. We'll call you on ${phone} to confirm. 🌸`;
+
+  document.getElementById('smsg-pkg-' + size).textContent = msg;
+  document.getElementById('mf-pkg-' + size).classList.add('hidden');
+  document.getElementById('ms-pkg-' + size).classList.add('show');
+}
+
 </script>
 </body>
 </html>
