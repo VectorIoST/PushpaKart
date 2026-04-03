@@ -580,19 +580,6 @@ nav.scrolled { box-shadow: 0 2px 28px rgba(28,16,8,0.09); }
   font-size: .7rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
   padding: 4px 14px; border-radius: 50px; display: inline-block; margin-bottom: 14px;
 }
-.sub-prices-list {
-  list-style: none; margin-bottom: 14px;
-  border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-md); overflow: hidden;
-}
-.sub-prices-list li {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 18px; color: rgba(255,255,255,.85); font-size: .86rem;
-  border-bottom: 1px solid rgba(255,255,255,.08);
-  transition: background .2s;
-}
-.sub-prices-list li:last-child { border-bottom: none; }
-.sub-prices-list li:hover { background: rgba(255,255,255,.06); }
-.sub-prices-list li strong { font-family: var(--font-head); font-size: 1.05rem; color: var(--gold); }
 .sub-perks { list-style: none; margin-bottom: 22px; }
 .sub-perks li {
   padding: 7px 0; color: rgba(255,255,255,.75); font-size: .83rem;
@@ -966,26 +953,47 @@ select.fi { cursor: pointer; }
   box-shadow: var(--shadow), 0 0 0 2px rgba(224,123,0,.15);
 }
 
-/* Subscription product names fix + enhanced styling */
+/* ── sub-prices-list: BASE (used in both dark section & white modal) ── */
+.sub-prices-list {
+  list-style: none;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+}
 .sub-prices-list li {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 18px; color: #ffffff; font-size: .88rem;
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  padding: 11px 16px; font-size: .87rem;
+  border-bottom: 1px solid var(--border);
   transition: background .2s;
   font-weight: 500;
+  /* Default: dark text for white/light backgrounds (modal) */
+  color: var(--ink);
 }
+.sub-prices-list li:last-child { border-bottom: none; }
 .sub-prices-list li span {
-  color: rgba(255,255,255,.92);
-  font-weight: 600;
+  color: var(--ink);
+  font-weight: 700;
   flex: 1;
 }
-.sub-prices-list li:hover { background: rgba(255,255,255,.08); }
 .sub-prices-list li strong {
-  font-family: var(--font-head); font-size: 1.1rem;
-  color: var(--gold);
+  font-family: var(--font-head); font-size: 1.08rem;
+  color: var(--saffron);
   white-space: nowrap;
   margin-left: 12px;
 }
+.sub-prices-list li:hover { background: rgba(224,123,0,.05); }
+
+/* ── sub-prices-list: inside the dark green subscription SECTION ── */
+#subscription .sub-prices-list {
+  border-color: rgba(255,255,255,.14);
+}
+#subscription .sub-prices-list li {
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,.09);
+}
+#subscription .sub-prices-list li span { color: rgba(255,255,255,.92); }
+#subscription .sub-prices-list li strong { color: var(--gold); }
+#subscription .sub-prices-list li:hover { background: rgba(255,255,255,.07); }
 
 /* Pulse animation on CTA buttons */
 @keyframes ctaPulse {
@@ -1094,6 +1102,31 @@ select.fi { cursor: pointer; }
   .flower-grid { grid-template-columns: repeat(2,1fr); }
   .h-orb { width: 200px; height: 200px; font-size: 4rem; }
   .sub-prices-list li { flex-wrap: wrap; gap: 4px; }
+}
+
+/* ══ MOBILE PERFORMANCE — disable heavy effects on touch devices ══ */
+@media (max-width:600px), (hover:none) {
+  /* Kill backdrop-filter (GPU killer on mobile) */
+  nav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(255,251,245,0.97) !important; }
+  .overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .sub-card { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  /* Remove heavy mesh pulse */
+  .hero::before { animation: none !important; }
+  /* Simplify float animation */
+  .h-orb { animation: floatSimple 5s ease-in-out infinite !important; }
+  @keyframes floatSimple { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  /* No ring rotation */
+  .h-orb::before { animation: none !important; }
+  /* Tone down card hover transforms — fast finger tap feels snappy */
+  .scard:hover, .pkg-card:hover, .how-step:hover { transform: none; }
+  .scard:active { transform: scale(0.98); }
+  /* Kill pulsing CTA – saves repaint */
+  .sub-cta { animation: none !important; }
+  .fab { animation: none !important; }
+  /* Simplify shimmer */
+  .del-strip::after { animation: none !important; }
+  /* No scroll reveal lag on mobile */
+  .sr, .sr-l, .sr-r { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
 /* ══ TABLET — keep hamburger hidden above 600px ══ */
@@ -2220,31 +2253,59 @@ function setLang(l) {
 ═══════════════════════════════════════════ */
 (function(){
   const cv = document.getElementById('petalCanvas');
+  if (!cv) return;
   const cx = cv.getContext('2d');
-  let W, H, ps = [];
-  const SH = ['🌸','🌺','🌼','🍃','✿','🌹','🌷','💐'];
-  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
-  resize(); window.addEventListener('resize', resize);
-  function P(){
-    this.x = Math.random()*W; this.y = -30;
-    this.sz = 10 + Math.random()*13;
-    this.sp = 0.4 + Math.random()*.8;
-    this.dr = (Math.random()-.5)*.7;
-    this.rot = Math.random()*360; this.rs = (Math.random()-.5)*1.4;
-    this.al = .2 + Math.random()*.22;
-    this.sh = SH[Math.floor(Math.random()*SH.length)];
+  const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+  // Fewer petals & simpler rendering on mobile
+  const COUNT = isMobile ? 8 : 22;
+  const SH = isMobile
+    ? ['🌸','🌺','🌼']        // fewer emoji types on mobile
+    : ['🌸','🌺','🌼','🍃','✿','🌹','🌷','💐'];
+  let W, H, ps = [], raf;
+  let hidden = false;
+
+  function resize(){
+    W = cv.width = window.innerWidth;
+    H = cv.height = window.innerHeight;
   }
-  for(let i=0;i<22;i++){ const p=new P(); p.y=Math.random()*H; ps.push(p); }
-  (function frame(){
+  resize();
+  // Debounced resize
+  let resizeTimer;
+  window.addEventListener('resize', ()=>{ clearTimeout(resizeTimer); resizeTimer=setTimeout(resize,200); });
+
+  function P(){
+    return {
+      x: Math.random()*W, y: -30,
+      sz: isMobile ? 8+Math.random()*8 : 10+Math.random()*13,
+      sp: isMobile ? 0.4+Math.random()*.5 : 0.4+Math.random()*.8,
+      dr: (Math.random()-.5)*.7,
+      rot: Math.random()*360, rs: (Math.random()-.5)*(isMobile?0.8:1.4),
+      al: isMobile ? 0.15+Math.random()*.12 : .2+Math.random()*.22,
+      sh: SH[Math.floor(Math.random()*SH.length)]
+    };
+  }
+  for(let i=0;i<COUNT;i++){ const p=P(); p.y=Math.random()*H; ps.push(p); }
+
+  // Pause when tab hidden to save battery
+  document.addEventListener('visibilitychange', ()=>{
+    hidden = document.hidden;
+    if (!hidden) raf = requestAnimationFrame(frame);
+  });
+
+  function frame(){
+    if (hidden) return;
     cx.clearRect(0,0,W,H);
     ps.forEach(p=>{
-      cx.save(); cx.globalAlpha=p.al; cx.translate(p.x,p.y); cx.rotate(p.rot*Math.PI/180);
+      cx.save(); cx.globalAlpha=p.al;
+      cx.translate(p.x,p.y);
+      if (!isMobile) cx.rotate(p.rot*Math.PI/180); // skip rotation on mobile
       cx.font=p.sz+'px serif'; cx.fillText(p.sh,-p.sz/2,p.sz/2); cx.restore();
       p.y+=p.sp; p.x+=p.dr; p.rot+=p.rs;
-      if(p.y>H+40) Object.assign(p,new P());
+      if(p.y>H+40) Object.assign(p,P());
     });
-    requestAnimationFrame(frame);
-  })();
+    raf = requestAnimationFrame(frame);
+  }
+  raf = requestAnimationFrame(frame);
 })();
 
 /* ═══════════════════════════════════════════
@@ -2265,24 +2326,32 @@ function animateCounter(id, target, suffix=''){
   requestAnimationFrame(step);
 }
 let countersStarted = false;
-function tryStartCounters(){
-  if(countersStarted) return;
-  const statsEl = document.querySelector('.stats');
-  if(!statsEl) return;
-  const rect = statsEl.getBoundingClientRect();
-  if(rect.top < window.innerHeight){
-    countersStarted = true;
-    animateCounter('cnt-customers', 500, '+');
-    animateCounter('cnt-varieties', 4);
-  }
-}
-window.addEventListener('scroll', tryStartCounters);
-tryStartCounters();
 
 /* ═══════════════════════════════════════════
-   NAV SCROLL
+   NAV SCROLL + COUNTERS + SCROLL PROGRESS — single throttled listener
 ═══════════════════════════════════════════ */
-window.addEventListener('scroll', ()=> document.getElementById('mainNav').classList.toggle('scrolled', scrollY>40));
+let scrollTicking = false;
+function onScroll(){
+  const sy = window.scrollY;
+  // Nav shadow
+  document.getElementById('mainNav').classList.toggle('scrolled', sy > 40);
+  // Scroll progress bar
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  if (docH > 0) document.getElementById('scrollProgress').style.width = ((sy/docH)*100)+'%';
+  // Counter trigger
+  if (!countersStarted){
+    const statsEl = document.querySelector('.stats');
+    if (statsEl && statsEl.getBoundingClientRect().top < window.innerHeight){
+      countersStarted = true;
+      animateCounter('cnt-customers', 500, '+');
+      animateCounter('cnt-varieties', 4);
+    }
+  }
+}
+window.addEventListener('scroll', ()=>{
+  if (!scrollTicking){ requestAnimationFrame(()=>{ onScroll(); scrollTicking=false; }); scrollTicking=true; }
+}, { passive: true });
+onScroll(); // run once on load
 
 /* ═══════════════════════════════════════════
    SCROLL REVEAL
@@ -2463,16 +2532,6 @@ function closeMobileNav() {
 function closeMobileNavOutside(e) {
   if (e.target === document.getElementById('mobileNav')) closeMobileNav();
 }
-
-/* ═══════════════════════════════════════════
-   SCROLL PROGRESS BAR
-═══════════════════════════════════════════ */
-window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  document.getElementById('scrollProgress').style.width = pct + '%';
-}, { passive: true });
 
 
 function val(id, msg){
