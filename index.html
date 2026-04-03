@@ -582,22 +582,17 @@ nav.scrolled { box-shadow: 0 2px 28px rgba(28,16,8,0.09); }
 }
 .sub-prices-list {
   list-style: none; margin-bottom: 14px;
-  border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-md); overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-md); overflow: hidden;
 }
 .sub-prices-list li {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 18px; font-size: .88rem;
+  padding: 10px 18px; color: rgba(255,255,255,.85); font-size: .86rem;
   border-bottom: 1px solid rgba(255,255,255,.08);
-  transition: background .2s; gap: 8px;
+  transition: background .2s;
 }
 .sub-prices-list li:last-child { border-bottom: none; }
-.sub-prices-list li:hover { background: rgba(255,255,255,.08); }
-.sub-prices-list li > span {
-  color: #ffffff !important; font-weight: 600;
-  flex: 1; min-width: 0;
-}
-.sub-prices-list li .sub-item-icon { font-size: 1.1rem; flex-shrink: 0; }
-.sub-prices-list li strong { font-family: var(--font-head); font-size: 1.05rem; color: var(--gold); flex-shrink: 0; }
+.sub-prices-list li:hover { background: rgba(255,255,255,.06); }
+.sub-prices-list li strong { font-family: var(--font-head); font-size: 1.05rem; color: var(--gold); }
 .sub-perks { list-style: none; margin-bottom: 22px; }
 .sub-perks li {
   padding: 7px 0; color: rgba(255,255,255,.75); font-size: .83rem;
@@ -820,20 +815,6 @@ select.fi { cursor: pointer; }
 .smp { font-family: var(--font-head); font-size: .85rem; color: rgba(255,255,255,.55); margin-top: 6px; }
 
 /* ══════════════════════════════════════
-   SCROLL TO TOP BTN
-══════════════════════════════════════ */
-.scroll-top {
-  position: fixed; bottom: 98px; right: 28px; z-index: 700;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--white); color: var(--saffron); border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; box-shadow: 0 4px 18px rgba(28,16,8,.12);
-  transition: all .3s; cursor: pointer; opacity: 0; pointer-events: none;
-}
-.scroll-top.vis { opacity: 1; pointer-events: all; }
-.scroll-top:hover { background: var(--saffron); color: var(--white); border-color: var(--saffron); transform: translateY(-2px); }
-
-/* ══════════════════════════════════════
    WHATSAPP FAB
 ══════════════════════════════════════ */
 .fab {
@@ -865,103 +846,12 @@ select.fi { cursor: pointer; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
 /* ══════════════════════════════════════
-   HAMBURGER MENU
-══════════════════════════════════════ */
-.hamburger {
-  display: none;
-  flex-direction: column; justify-content: center; align-items: center;
-  gap: 5px; width: 38px; height: 38px;
-  border: 1.5px solid var(--border); border-radius: var(--r-sm);
-  background: var(--bg2); cursor: pointer;
-  transition: background .2s, border-color .2s;
-}
-.hamburger:hover { background: var(--saffron); border-color: var(--saffron); }
-.hamburger span {
-  display: block; width: 18px; height: 2px;
-  background: var(--ink); border-radius: 2px;
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
-}
-.hamburger:hover span { background: var(--white); }
-.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* Mobile menu drawer */
-.mobile-menu {
-  position: fixed; top: 0; right: -280px; width: 280px; height: 100%;
-  background: var(--white); z-index: 700; padding: 80px 24px 32px;
-  box-shadow: -8px 0 40px rgba(28,16,8,.14);
-  transition: right .35s cubic-bezier(.34,1.56,.64,1);
-  display: flex; flex-direction: column;
-}
-.mobile-menu.open { right: 0; }
-.mobile-nav { display: flex; flex-direction: column; gap: 4px; }
-.mobile-nav a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 13px 16px; border-radius: var(--r-sm);
-  font-size: .95rem; font-weight: 700; color: var(--ink);
-  transition: background .2s, color .2s;
-}
-.mobile-nav a:hover { background: rgba(224,123,0,.08); color: var(--saffron); }
-.mobile-sub-btn {
-  margin-top: 20px; padding: 14px; width: 100%;
-  background: linear-gradient(135deg, var(--sage), #1e4d38);
-  color: var(--white); border: none; border-radius: var(--r-md);
-  font-size: .95rem; font-weight: 800; cursor: pointer;
-  transition: opacity .2s;
-}
-.mobile-sub-btn:hover { opacity: .88; }
-.mobile-overlay {
-  position: fixed; inset: 0; z-index: 690;
-  background: rgba(28,16,8,.45); backdrop-filter: blur(4px);
-  opacity: 0; pointer-events: none; transition: opacity .28s;
-}
-.mobile-overlay.open { opacity: 1; pointer-events: all; }
-
-/* ══════════════════════════════════════
-   ENHANCED CARD INTERACTIONS
-══════════════════════════════════════ */
-.scard { position: relative; }
-.scard::before {
-  content: ''; position: absolute; inset: 0;
-  border-radius: var(--r-lg);
-  background: linear-gradient(135deg, rgba(224,123,0,.04), transparent);
-  opacity: 0; transition: opacity .3s;
-}
-.scard:hover::before { opacity: 1; }
-
-/* Ripple effect on buttons */
-.btn-prim, .btn-sec, .sc-btn, .pkg-cta, .sub-cta, .o-sub-btn {
-  position: relative; overflow: hidden;
-}
-.btn-prim::after, .btn-sec::after, .sc-btn::after {
-  content: ''; position: absolute;
-  width: 0; height: 0; border-radius: 50%;
-  background: rgba(255,255,255,.3);
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  transition: width .4s ease, height .4s ease, opacity .4s ease;
-  opacity: 0;
-}
-.btn-prim:active::after, .btn-sec:active::after, .sc-btn:active::after {
-  width: 200px; height: 200px; opacity: 0;
-}
-
-/* Enhanced section tag */
-.s-tag { cursor: default; }
-
-/* Smooth image-like orb pulse */
-.h-orb { transition: box-shadow .4s, transform .3s; }
-
-/* ══════════════════════════════════════
-   RESPONSIVE (enhanced)
+   RESPONSIVE
 ══════════════════════════════════════ */
 /* ══ TABLET ══ */
 @media(max-width:960px){
   nav { padding: 13px 20px; }
   .nav-mid { display: none; }
-  .nav-sub-btn { display: none; }
-  .hamburger { display: flex; }
   .hero { grid-template-columns: 1fr; padding: 108px 24px 60px; text-align: center; gap: 36px; }
   .hero-btns { justify-content: center; }
   .hero-sub { margin-left: auto; margin-right: auto; }
@@ -977,16 +867,190 @@ select.fi { cursor: pointer; }
   .cards-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
 
+/* ══════════════════════════════════════
+   HAMBURGER MENU
+══════════════════════════════════════ */
+.hamburger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; width: 40px; height: 40px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+  border-radius: var(--r-sm);
+  transition: background .2s;
+}
+.hamburger:hover { background: rgba(224,123,0,.1); }
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--ink); border-radius: 2px;
+  transition: transform .3s, opacity .3s, width .3s;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile nav drawer */
+.mobile-nav {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 590;
+  background: rgba(28,16,8,.45); backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+}
+.mobile-nav.open { opacity: 1; pointer-events: all; }
+.mobile-nav-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 80%; max-width: 320px;
+  background: var(--bg); padding: 80px 28px 32px;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: -8px 0 40px rgba(28,16,8,.18);
+  display: flex; flex-direction: column; gap: 8px;
+  overflow-y: auto;
+}
+.mobile-nav.open .mobile-nav-panel { transform: translateX(0); }
+.mobile-nav-link {
+  display: block; padding: 14px 16px;
+  font-size: 1rem; font-weight: 700; color: var(--ink);
+  border-radius: var(--r-md); transition: background .2s, color .2s;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-nav-link:hover { background: rgba(224,123,0,.08); color: var(--saffron); }
+.mobile-nav-divider { height: 1px; background: var(--border); margin: 10px 0; }
+.mobile-lang-row {
+  display: flex; gap: 8px; margin-top: 8px;
+}
+.mobile-lang-row .lang-btn { flex: 1; padding: 9px 6px; font-size: .82rem; border-radius: var(--r-sm); }
+.mobile-sub-btn {
+  margin-top: 16px; width: 100%;
+  background: var(--sage); color: var(--white);
+  border: none; padding: 13px 20px; border-radius: 50px;
+  font-size: .93rem; font-weight: 700;
+  transition: background .2s;
+}
+.mobile-sub-btn:hover { background: var(--saffron); }
+
+/* ══════════════════════════════════════
+   ENHANCED INTERACTIVE EFFECTS
+══════════════════════════════════════ */
+/* Ripple effect for buttons */
+.btn-prim, .btn-sec, .sc-btn, .pkg-cta, .sub-cta, .o-sub-btn, .nav-sub-btn {
+  position: relative; overflow: hidden;
+}
+.btn-prim::after, .btn-sec::after, .sc-btn::after,
+.pkg-cta::after, .sub-cta::after, .o-sub-btn::after, .nav-sub-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.25) 0%, transparent 70%);
+  transform: scale(0); opacity: 0;
+  transition: transform .4s ease, opacity .4s ease;
+  pointer-events: none;
+}
+.btn-prim:active::after, .btn-sec:active::after, .sc-btn:active::after,
+.pkg-cta:active::after, .sub-cta:active::after, .o-sub-btn:active::after, .nav-sub-btn:active::after {
+  transform: scale(2.5); opacity: 1; transition: 0s;
+}
+
+/* Enhanced stat counter animation */
+.stat-box { position: relative; overflow: hidden; }
+.stat-box::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,209,102,.0) 0%, rgba(255,209,102,.06) 100%);
+  opacity: 0; transition: opacity .3s;
+}
+.stat-box:hover::before { opacity: 1; }
+
+/* Glowing card effect on hover */
+.scard:hover {
+  box-shadow: var(--shadow), 0 0 0 2px rgba(224,123,0,.15);
+}
+
+/* Subscription product names fix + enhanced styling */
+.sub-prices-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 18px; color: #ffffff; font-size: .88rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  transition: background .2s;
+  font-weight: 500;
+}
+.sub-prices-list li span {
+  color: rgba(255,255,255,.92);
+  font-weight: 600;
+  flex: 1;
+}
+.sub-prices-list li:hover { background: rgba(255,255,255,.08); }
+.sub-prices-list li strong {
+  font-family: var(--font-head); font-size: 1.1rem;
+  color: var(--gold);
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+/* Pulse animation on CTA buttons */
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 6px 20px rgba(224,123,0,.4); }
+  50% { box-shadow: 0 6px 32px rgba(224,123,0,.65), 0 0 0 6px rgba(224,123,0,.1); }
+}
+.sub-cta { animation: ctaPulse 2.5s ease infinite; }
+.sub-cta:hover { animation: none; }
+
+/* Section background accents */
+#services { position: relative; }
+#services::after {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(224,123,0,.06) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Enhanced card grid spacing */
+.cards-grid { position: relative; z-index: 1; }
+
+/* Scroll progress indicator */
+#scrollProgress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 1000;
+  background: linear-gradient(90deg, var(--saffron), var(--rose), var(--sage2));
+  width: 0%; transition: width .1s linear;
+  box-shadow: 0 0 8px rgba(224,123,0,.5);
+}
+
+/* Enhanced how-step connector */
+@media(min-width:700px){
+  .how-step:not(:last-child)::after {
+    display: block;
+    content: '→';
+    color: var(--saffron);
+    opacity: .4;
+    font-size: 1.5rem;
+  }
+}
+
+/* Improved toast */
+.toast {
+  background: linear-gradient(135deg, var(--ink), #3a2818);
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+/* Touch-friendly tap targets */
+@media (hover: none) and (pointer: coarse) {
+  .chip, .fchip, .plan-chip { padding: 10px 16px; }
+  .qb { width: 38px; height: 38px; }
+  .sc-btn { padding: 11px 20px; }
+}
+
 /* ══ MOBILE ══ */
 @media(max-width:600px){
   nav { padding: 11px 16px; }
   .logo { font-size: 1.35rem; }
-  .lang-btn { padding: 5px 8px; font-size: .72rem; }
-  .nav-sub-btn { display: none; }
+  .nav-mid { display: none; }
   .hamburger { display: flex; }
-  .del-strip { padding: 9px 16px; gap: 12px; font-size: .75rem; justify-content: flex-start; flex-wrap: wrap; }
-  .del-strip .del-item { flex: 0 0 calc(50% - 6px); }
-  .hero { padding: 92px 16px 52px; gap: 28px; }
+  .mobile-nav { display: block; }
+  .lang-toggle { display: none; }
+  .nav-sub-btn { display: none; }
+  .del-strip { padding: 9px 16px; gap: 14px; font-size: .75rem; justify-content: flex-start; flex-wrap: wrap; }
+  .hero { padding: 100px 16px 52px; gap: 28px; }
   .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
   .hero-sub { font-size: .93rem; }
   .hero-btns { flex-direction: column; align-items: center; gap: 10px; }
@@ -1020,90 +1084,7 @@ select.fi { cursor: pointer; }
   .price-toggle-wrap { margin: 20px 0 32px; }
   .pt-btn { padding: 8px 18px; font-size: .82rem; }
   footer { padding: 22px 16px; }
-}
-
-/* ══════════════════════════════════════
-   EXTRA VISUAL POLISH
-══════════════════════════════════════ */
-
-/* Tappable area improvements for mobile */
-@media (max-width: 600px) {
-  .chip { padding: 9px 16px; font-size: .82rem; }
-  .qb  { width: 38px; height: 38px; }
-  .qv  { width: 40px; font-size: 1.1rem; }
-  .fchip { padding: 11px 6px; }
-  .plan-chip { padding: 12px 8px; }
-  .lang-btn { padding: 7px 10px; }
-  .fab { width: 52px; height: 52px; font-size: 1.4rem; bottom: 20px; right: 20px; }
-  .scroll-top { bottom: 82px; right: 20px; }
-}
-
-/* Hero pill animation delay */
-.hero-pill { animation-delay: 0s; }
-.hero h1   { animation-delay: .08s; }
-.hero-sub  { animation-delay: .16s; }
-.hero-btns { animation-delay: .24s; }
-
-/* Badge hover pop */
-.h-badge { transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
-
-/* Stat number highlight */
-.stat-n { transition: transform .25s, color .25s; }
-.stat-box:hover .stat-n { transform: scale(1.08); }
-
-/* Smooth focus ring for accessibility */
-*:focus-visible {
-  outline: 2px solid var(--saffron);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-/* Package grid — 2 col on medium screens */
-@media (min-width: 601px) and (max-width: 960px) {
-  .pkg-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 680px;
-  }
-  .pkg-card.featured-pkg {
-    grid-column: span 2;
-    max-width: 440px;
-    margin: 0 auto;
-    width: 100%;
-  }
-}
-
-/* Subscription card on mobile — better spacing */
-@media (max-width: 600px) {
-  .sub-card { border-radius: var(--r-lg); }
-  .sub-prices-list li {
-    padding: 11px 12px;
-    font-size: .82rem;
-  }
-  .sub-prices-list li .sub-item-icon { font-size: .95rem; }
-  .sub-feat { gap: 10px; }
-  .sfi { width: 30px; height: 30px; font-size: .8rem; flex-shrink: 0; }
-}
-
-/* Cards grid — 2 col on tablets */
-@media (min-width: 601px) and (max-width: 960px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Delivery strip on mobile — 2x2 grid */
-@media (max-width: 480px) {
-  .del-strip {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 12px;
-    padding: 10px 16px;
-  }
-}
-
-/* How-it-works — 4 col on desktop, 2x2 on tablet, 1 col on mobile */
-@media (max-width: 480px) {
-  .how-grid { grid-template-columns: 1fr; gap: 12px; }
+  .f-row { grid-template-columns: 1fr; }
 }
 
 /* ══ VERY SMALL ══ */
@@ -1112,11 +1093,19 @@ select.fi { cursor: pointer; }
   .stat-box { flex: 0 0 100%; border-right: none; }
   .flower-grid { grid-template-columns: repeat(2,1fr); }
   .h-orb { width: 200px; height: 200px; font-size: 4rem; }
+  .sub-prices-list li { flex-wrap: wrap; gap: 4px; }
+}
+
+/* ══ TABLET — keep hamburger hidden above 600px ══ */
+@media(min-width:601px) and (max-width:960px){
+  .hamburger { display: none; }
+  .mobile-nav { display: none !important; }
 }
 </style>
 </head>
 <body>
 
+<div id="scrollProgress"></div>
 <canvas id="petalCanvas"></canvas>
 
 <!-- ══════════════════
@@ -1137,23 +1126,28 @@ select.fi { cursor: pointer; }
       <button class="lang-btn" id="btnMR" onclick="setLang('mr')">मराठी</button>
     </div>
     <button class="nav-sub-btn" onclick="openOverlay('sub')" data-t="nav_plan">Monthly Plan ₹10/day</button>
-    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" onclick="toggleMobileNav()">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- Mobile Menu Drawer -->
-<div class="mobile-menu" id="mobileMenu">
-  <nav class="mobile-nav">
-    <a href="#services" onclick="closeMobileMenu()" data-t="nav_services">🌺 Services</a>
-    <a href="#packages" onclick="closeMobileMenu()">📦 Packages</a>
-    <a href="#subscription" onclick="closeMobileMenu()" data-t="nav_sub">⭐ Subscribe</a>
-    <a href="#how" onclick="closeMobileMenu()" data-t="nav_how">❓ How It Works</a>
-    <button class="mobile-sub-btn" onclick="closeMobileMenu();openOverlay('sub')">✨ Monthly Plan ₹10/day</button>
-  </nav>
+<!-- Mobile Navigation Drawer -->
+<div class="mobile-nav" id="mobileNav" onclick="closeMobileNavOutside(event)">
+  <div class="mobile-nav-panel">
+    <a class="mobile-nav-link" href="#services" onclick="closeMobileNav()" data-t="nav_services">🌺 Services</a>
+    <a class="mobile-nav-link" href="#packages" onclick="closeMobileNav()">📦 Packages</a>
+    <a class="mobile-nav-link" href="#subscription" onclick="closeMobileNav()" data-t="nav_sub">📅 Subscribe</a>
+    <a class="mobile-nav-link" href="#how" onclick="closeMobileNav()" data-t="nav_how">❓ How It Works</a>
+    <div class="mobile-nav-divider"></div>
+    <div class="mobile-lang-row">
+      <button class="lang-btn active" id="btnEN2" onclick="setLang('en');closeMobileNav()">EN</button>
+      <button class="lang-btn" id="btnHI2" onclick="setLang('hi');closeMobileNav()">हिंदी</button>
+      <button class="lang-btn" id="btnMR2" onclick="setLang('mr');closeMobileNav()">मराठी</button>
+    </div>
+    <button class="mobile-sub-btn" onclick="openOverlay('sub');closeMobileNav()" data-t="nav_plan">🌸 Monthly Plan ₹10/day</button>
+  </div>
 </div>
-<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
 
 <!-- ══════════════════
      DELIVERY STRIP
@@ -1403,10 +1397,10 @@ select.fi { cursor: pointer; }
       <div class="sub-badge" data-t="sub_badge">Best Value</div>
       <div style="font-size:2.4rem;margin-bottom:6px;">🌸</div>
       <ul class="sub-prices-list">
-        <li><span class="sub-item-icon">🪷</span><span data-t="c1_name">Pooja Flowers</span><strong>₹10<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
-        <li><span class="sub-item-icon">🌼</span><span data-t="c2_name">Gajara Flowers</span><strong>₹15<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
-        <li><span class="sub-item-icon">💐</span><span data-t="c3_name">Gajara</span><strong>₹19<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
-        <li><span class="sub-item-icon">🌺</span><span data-t="c4_name">Customized Flowers</span><strong>₹25<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
+        <li><span data-t="c1_name" style="color:#fff;font-weight:600;">🪷 Pooja Flowers</span><strong>₹10<span style="font-size:.75rem;font-family:var(--font-body);color:var(--gold)">/mo</span></strong></li>
+        <li><span data-t="c2_name" style="color:#fff;font-weight:600;">🌼 Gajara Flowers</span><strong>₹15<span style="font-size:.75rem;font-family:var(--font-body);color:var(--gold)">/mo</span></strong></li>
+        <li><span data-t="c3_name" style="color:#fff;font-weight:600;">💐 Gajara</span><strong>₹19<span style="font-size:.75rem;font-family:var(--font-body);color:var(--gold)">/mo</span></strong></li>
+        <li><span data-t="c4_name" style="color:#fff;font-weight:600;">🌺 Customized</span><strong>₹25<span style="font-size:.75rem;font-family:var(--font-body);color:var(--gold)">/mo</span></strong></li>
       </ul>
       <hr style="border:none;border-top:1px solid rgba(255,255,255,.1);margin:4px 0 14px"/>
       <ul class="sub-perks">
@@ -1446,9 +1440,6 @@ select.fi { cursor: pointer; }
 
 <!-- WhatsApp FAB -->
 <button class="fab" onclick="window.open('https://wa.me/919876543210?text=Hi! I want to order flowers from Pushpa Flowers','_blank')" title="Chat on WhatsApp">💬</button>
-
-<!-- Scroll to Top -->
-<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">▲</button>
 
 <!-- ══════════════════════════════════════
      MODALS
@@ -1881,10 +1872,10 @@ select.fi { cursor: pointer; }
   <div class="modal-body">
     <div class="m-form" id="mf-sub">
       <ul class="sub-prices-list" style="margin-bottom:16px">
-        <li><span class="sub-item-icon">🪷</span><span data-t="c1_name">Pooja Flowers</span><strong>₹10<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
-        <li><span class="sub-item-icon">🌼</span><span data-t="c2_name">Gajara Flowers</span><strong>₹15<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
-        <li><span class="sub-item-icon">💐</span><span data-t="c3_name">Gajara</span><strong>₹19<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
-        <li><span class="sub-item-icon">🌺</span><span data-t="c4_name">Customized Flowers</span><strong>₹25<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
+        <li><span data-t="c1_name">Pooja Flowers</span><strong>₹10<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
+        <li><span data-t="c2_name">Gajara Flowers</span><strong>₹15<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
+        <li><span data-t="c3_name">Gajara</span><strong>₹19<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
+        <li><span data-t="c4_name">Customized</span><strong>₹25<span style="font-size:.72rem;font-family:var(--font-body)">/day</span></strong></li>
       </ul>
       <div class="f-row">
         <div class="fg"><label class="fl" data-t="your_name">Your Name</label><input class="fi" id="sb-n" placeholder="e.g. Kavita Mehta"/></div>
@@ -2291,10 +2282,7 @@ tryStartCounters();
 /* ═══════════════════════════════════════════
    NAV SCROLL
 ═══════════════════════════════════════════ */
-window.addEventListener('scroll', ()=> {
-  document.getElementById('mainNav').classList.toggle('scrolled', scrollY>40);
-  document.getElementById('scrollTopBtn').classList.toggle('vis', scrollY>400);
-});
+window.addEventListener('scroll', ()=> document.getElementById('mainNav').classList.toggle('scrolled', scrollY>40));
 
 /* ═══════════════════════════════════════════
    SCROLL REVEAL
@@ -2451,31 +2439,40 @@ function toggleF(el, name){
 }
 
 /* ═══════════════════════════════════════════
-   MOBILE MENU
+   MOBILE NAV
 ═══════════════════════════════════════════ */
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobileMenu');
-  const overlay = document.getElementById('mobileOverlay');
-  const btn = document.getElementById('hamburger');
-  const isOpen = menu.classList.contains('open');
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburgerBtn');
+  const isOpen = nav.classList.contains('open');
   if (isOpen) {
-    menu.classList.remove('open');
-    overlay.classList.remove('open');
+    nav.classList.remove('open');
     btn.classList.remove('open');
     document.body.style.overflow = '';
   } else {
-    menu.classList.add('open');
-    overlay.classList.add('open');
+    nav.classList.add('open');
     btn.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 }
-function closeMobileMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
   document.body.style.overflow = '';
 }
+function closeMobileNavOutside(e) {
+  if (e.target === document.getElementById('mobileNav')) closeMobileNav();
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL PROGRESS BAR
+═══════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+}, { passive: true });
 
 
 function val(id, msg){
